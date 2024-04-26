@@ -1,141 +1,136 @@
-# MS Teams Notifications
+# Notify Microsoft Teams
+![CI](https://github.com/Skitionek/notify-microsoft-teams/workflows/CI/badge.svg)
+![GitHub](https://img.shields.io/github/license/homoluctus/slatify?color=brightgreen)
 
-This GitHub action allows you to send notifications to Microsoft Teams from your GitHub workflows easily.
+Teams notify action inspired by [git:homoluctus/slatify](https://github.com/homoluctus/slatify) (for Slack).
 
-## Usage
+This is Microsoft Teams Notification for GitHub Actions.<br>
+Generated from [actions/javascript-template](https://github.com/actions/javascript-template).
 
-To use this action, include the following step in your workflow (see inputs and examples for more information):
+# ToC
 
-```yaml
-- name: MS Teams Notifications
-  uses: sergioaten/msteams-notifications@v0.11-beta
-  with:
-    steps: ${{ toJson(steps) }}
-    factsTitle: <facts-title>
-    facts: <facts yaml format>
-    webhook: <Teams-webhook-URL>
-    buttons: <buttons yaml format>
-```
+- [Feature](#Feature)
+- [Usage](#Usage)
+  - [Examples](#Examples)
+- [Microsoft Teams UI](#Microsoft_Teams_UI)
+- [Contribution](#Contribution)
+- [LICENSE](#LICENSE)
 
-## Inputs
+# Feature
+- Notify the result of GitHub Actions
+- Support all job statuses (reference: [job-context](https://help.github.com/en/articles/contexts-and-expression-syntax-for-github-actions#job-context))
+- Logs relevant jobs and steps along with their output in case of failure
+- Provides flexible interface to overwrite any part of the message
+- Allows sending raw json-formatted messages directly from action definition
 
-| Input        | Description                                                                | Required | Default value                                                              |
-| ------------ | -------------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------- |
-| `title`      | Title of the Teams message.                                                | No       | ${{ github.workflow }} > ${{ github.ref_name }} (${{ github.run_number }}) |
-| `steps`      | Workflow steps in JSON format. Recommendation: ${{ toJson(steps) }}        | No       | -                                                                          |
-| `factsTitle` | Title of the facts. Supports HTML                                          | No       | Facts                                                                      |
-| `facts`      | Facts in YAML format.                                                      | No       | -                                                                          |
-| `sections`   | Overwrite steps & facts and you can build your custom section as you want. | No       | -                                                                          |
-| `webhook`    | Teams webhook URL.                                                         | Yes      | -                                                                          |
-| `buttons`    | Buttons in YAML format.                                                    | No       | -                                                                          |
-| `dry_run`    | Dont send notification if true. Default is false.                          | No       | false                                                                      |
+# Usage
+First of all, you need to set GitHub secrets for MSTEAMS_WEBHOOK that is Incoming Webhook URL.
 
-See [Microsoft Docs](https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using?tabs=cURL) for more information on building the YAML objects.
+You can customize the following parameters:
 
-## Outputs
+|with parameter|required/optional|default|description|
+|:--:|:--:|:--|:--|
+|webhook_url|optional|$MSTEAMS_WEBHOOK|Microsoft Teams Incoming Webhooks URL<br>Please specify this key or MSTEAMS_WEBHOOK environment variable|
+|job|optional|{}}|JSON parsed job context|
+|steps|optional|{}|JSON parsed steps context|
+|needs|optional|{}|JSON parsed needs context|
+|dry_run|optional|False|Do not actually send the message|
+|raw|optional|''|JSON object to send to Microsoft Teams|
+|overwrite|optional|''|JSON like object to overwrite default message (executed with eval)|
 
-- `jsonPayload`: JSON payload for Teams.
+Please refer [action.yml](./action.yml) for more details.
 
 ## Examples
 
-Here are examples of how to use this action in your workflow:
+```yml
+name: Check notification
 
-### Example 1 - Basic
+on:
+  push: {}
+  release: {}
 
-```yaml
-- name: Send MS Teams notification
-  id: notification
-  if: always()
-  uses: sergioaten/msteams-notifications@v0.1-beta
-  with:
-    webhook: ${{ secrets.MSTEAMS_WEBHOOK }}
+jobs:
+  success:
+    name: One with everything
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: True
+
+
+  without_optional_params:
+    name: One with little info
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+
+  with_overwrite:
+    name: One with overwrite
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          overwrite: "{title: `Overwrote title in ${workflow_link}`}"
+
+  with_raw:
+    name: One with raw data
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          raw: >-
+            {
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "title": "No ${variables} avaliable in here"
+            }
+
+  if_failure:
+    name: Only if failure
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: failure()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
 ```
 
-![Example 1](https://i.imgur.com/O7xRTPi.png)
+# Microsoft Teams UI
 
-### Example 2 - Default Template + Buttons
+![Notification Preview 1](./images/1.png)
+![Notification Preview 2](./images/2.png)
+![Notification Preview 3](./images/3.png)
+![Notification Preview 4](./images/4.png)
+![Notification Preview 5](./images/5.png)
+![Notification Preview 6](./images/6.png)
 
-```yaml
-- name: Send MS Teams notification
-  id: notification
-  if: always()
-  uses: sergioaten/msteams-notifications@v0.1-beta
-  with:
-    webhook: ${{ secrets.MS_TEAMS_WEBHOOK }}
-    steps: ${{ toJson(steps) }}
-    factsTitle: "Workflow Details"
-    facts: |
-      - Author: John Doe
-      - Version: 1.0.0
-    buttons: |
-      - type: OpenUri
-        name: View in GitHub
-        targets:
-          - os: default
-            uri: https://github.com/sergioaten/msteams-notifications
-```
+# Contribution
 
-![Example 2](https://i.imgur.com/sxINtZ1.png)
+You are welcome to contribute in any form. I would gladly improve this package.
 
-### Example 3 - Custom Section
+# LICENSE
 
-```yaml
-- name: Send MS Teams notification
-  id: notification
-  if: always()
-  uses: sergioaten/msteams-notifications@v0.1-beta
-  with:
-    webhook: ${{ secrets.MSTEAMS_WEBHOOK }}
-    sections: |
-      - text: This is a test with a custom section
-        facts:
-          - name: This is a test fact nº1
-            value: This is the value nº1
-          - name: This is a test fact nº2
-            value: This is the value nº2
-      - text: <h1><i><strong>do you want more? you can use HTML! :)</h1></i></strong>
-```
-
-![Example 3](https://i.imgur.com/0KoJuqF.png)
-
-### Example 4 - Custom Section + Buttons
-
-```yaml
-- name: Send MS Teams notification
-  id: notification
-  if: always()
-  uses: sergioaten/msteams-notifications@v0.1-beta
-  with:
-    webhook: ${{ secrets.MSTEAMS_WEBHOOK }}
-    sections: |
-      - text: New task created
-        facts:
-          - name: Task ID
-            value: TSK-123
-          - name: Assigned to
-            value: John Doe
-          - name: Priority
-            value: High
-      - text: <h1><i><strong>More details</h1></i></strong>
-    buttons: |
-      - type: OpenUri
-        name: View Task
-        targets:
-          - os: default
-            uri: https://example.com/tasks/TSK-123
-      - type: OpenUri
-        name: View application
-        targets:
-          - os: default
-            uri: https://myapplication.com
-```
-
-![Example 4](https://i.imgur.com/Nc8jHL8.png)
-
-## Contribution
-
-Contributions are welcome. If you have any improvements or encounter any issues, feel free to open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more information.
+[The MIT License (MIT)](https://github.com/Skitionek/notify-microsoft-teams/blob/master/LICENSE)

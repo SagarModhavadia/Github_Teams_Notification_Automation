@@ -5,11 +5,15 @@ on:
     paths: ['MyFolder/**']
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  success:
+    runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: ./
         if: always()
         with:
-         webhook: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          webhook_url: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}

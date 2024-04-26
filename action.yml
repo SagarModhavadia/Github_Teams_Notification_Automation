@@ -1,59 +1,31 @@
-name: 'MS Teams Notifications'
-description: 'Send MS Teams notifications from workflows easily'
-author: 'sergioaten'
-
-branding:
-  icon: send
-  color: blue
-
+name: 'notify-microsoft-teams'
+description: 'Microsoft Teams Notification for Github Actions'
+author: 'Skitionek'
 inputs:
-  jobStatus:
-    description: 'Job status'
-    default: '${{ job.status }}'
-
-  title:
-    description: 'MS Teams msg title'
+  webhook_url:
+    description: 'teams incoming webhook url'
     required: false
-    default: '${{ github.workflow }} > ${{ github.ref_name }} (${{ github.run_number }})'
-  
-  lastCommit:
-    description: 'Last commit message'
-    default: '${{ github.event.head_commit.message }}'
-
+  raw:
+    description: 'JSON object to send to Microsoft Teams'
+    required: false
+  overwrite:
+    description: 'JSON like object to overwrite default message (executed with eval)'
+    required: false
+  job:
+    description: 'JSON parsed job context'
+    required: false
   steps:
-    description: 'Workflow Steps'
+    description: 'JSON parsed steps context'
     required: false
-
-  factsTitle:
-    description: 'MS Teams facts title'
+  needs:
+    description: 'JSON parsed needs context'
     required: false
-
-  facts:
-    description: 'MS Teams facts'
-    required: false
-
-  sections:
-    description: 'MS Teams Sections'
-    required: false
-  
-  webhook:
-    description: 'MS Teams webhook'
-    required: true
-    default: ''
-
-  buttons:
-    description: 'MS Teams buttons'
-    required: false
-  
   dry_run:
-    description: 'Send notification if true'
+    description: 'Do not actually send the message'
     required: false
-    default: 'false'
-
-outputs:
-  jsonPayload:
-    description: 'MS Teams json payload'
-
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
+branding:
+  icon: 'bell'
+  color: 'purple'
