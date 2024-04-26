@@ -1,8 +1,8 @@
 name: MS Teams Notification
 on:
   push:
-    paths:
-      - MyFolder/**
+    branches: ['main']
+    paths: ['folder/**']
 
 jobs:
   build:
