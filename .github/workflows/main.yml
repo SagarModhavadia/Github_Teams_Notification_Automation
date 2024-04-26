@@ -1,5 +1,4 @@
 name: MS Teams Notification
-
 on: [push, pull_request]
 
 jobs:
@@ -7,14 +6,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      # this is the new step using the ms-teams-notification action
-      - name: Notify dedicated teams channel
-        uses: jdcargile/ms-teams-notification@v1.4
+      - uses: actions/checkout@v2
+      - uses: dchourasia/ms-teams-notification@1.0
+        if: always()
         with:
-          github-token: ${{ github.token }} # this will use the runner's token.
-          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          notification-summary: Your custom notification message 
-          notification-color: 17a2b8
-          timezone: America/Denver
-          verbose-logging: true
+          github-token: ${{ github.token }}
+          webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
