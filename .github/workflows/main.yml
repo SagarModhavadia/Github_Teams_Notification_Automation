@@ -2,16 +2,15 @@ name: MS Teams Notification
 on:
   push:
     branches: ['main']
-    paths: ['folder/**']
+    paths: ['MyFolder/**']
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: dchourasia/ms-teams-notification@1.0
+      - uses: ./
         if: always()
         with:
           github-token: ${{ github.token }}
           webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          show-on-exit: false
