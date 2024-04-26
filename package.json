@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Microsoft Teams Notification",
   "main": "index.ts",
-  "repository": "https://github.com/dchourasia/ms-teams-notification",
-  "author": "Deepak Chourasia",
-  "license": "MIT",
   "private": false,
   "dependencies": {
     "@actions/core": "^1.10.0",

@@ -60,6 +60,11 @@ export function formatCompleteLayout(
   // Set section facts
   section.facts = [
     new Fact(
+      "Event type:",
+      "`" + process.env.GITHUB_EVENT_NAME?.toUpperCase() + "`"
+    ),
+    new Fact("Status:", labels),
+    new Fact(
       "Commit message:",
       escapeMarkdownTokens(commit.data.commit.message)
     ),
