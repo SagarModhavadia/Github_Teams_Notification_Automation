@@ -26,7 +26,7 @@ inputs:
   card-layout-exit:
     description: Card layout on end (i.e. "complete", "cozy", "compact")
     required: false
-    default: compact
+    default: complete
   show-on-start:
     description: Show the MS Teams card upon starting this Github Actions job
     required: false

@@ -17,7 +17,7 @@ export function formatCozyLayout(
   conclusion: string,
   elapsedSeconds?: number
 ) {
-  const timezone = getInput("timezone") || "UTC";
+  const timezone = getInput("timezone") || "EST";
   const nowFmt = moment()
     .tz(timezone)
     .format("dddd, MMMM Do YYYY, h:mm:ss a z");
