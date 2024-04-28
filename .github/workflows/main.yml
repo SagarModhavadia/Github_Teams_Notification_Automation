@@ -8,9 +8,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: opsless/ms-teams-github-actions@main
-        if: always() # to let this step always run even if previous step failed
+      - name: Microsoft Teams Notifications
+        uses: gor918/ms-teams-card-action@main
         with:
           github-token: ${{ github.token }}
-          webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: Files Committed
+          notification-color: 17a2b8
+          timezone: Europe/Bucharest
