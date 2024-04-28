@@ -5,15 +5,12 @@ on:
     paths: ['docs/**']
 
 jobs:
-  success: # make sure the action works on a clean machine without building
+  build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./
-      with: 
-        github-token: ${{ github.token }}
-        ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-        notification-summary: Changes are committed
-        notification-color: 17a2b8
-        timezone: America/Denver 
-    
+      - uses: actions/checkout@v4
+      - uses: opsless/ms-teams-github-actions@main
+        if: always() # to let this step always run even if previous step failed
+        with:
+          github-token: ${{ github.token }}
+          webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
