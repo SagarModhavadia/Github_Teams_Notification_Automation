@@ -34,7 +34,7 @@ export function createMessageCard(
         activityTitle: `**CI #${runNum} (commit ${sha.substr(
           0,
           7
-        )})** on [${repoName}](${repoUrl})`,
+        )})** on repo [${repoName}](${repoUrl})`,
         activityImage: avatar_url,
         activitySubtitle: `by ${commit.data.commit.author.name} ${author_url} on ${timestamp}`
       }
