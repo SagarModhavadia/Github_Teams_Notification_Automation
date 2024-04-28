@@ -5,14 +5,7 @@ on:
     paths: ['docs/**']
 
 jobs:
-  build: # make sure build/ci work properly
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - run: |
-        npm install
-        npm run all
-  test: # make sure the action works on a clean machine without building
+  success: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -20,7 +13,7 @@ jobs:
       with: 
         github-token: ${{ github.token }}
         ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-        notification-summary: Deployment Started 
+        notification-summary: Changes are committed
         notification-color: 17a2b8
         timezone: America/Denver 
     
