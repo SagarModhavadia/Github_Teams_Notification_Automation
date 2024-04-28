@@ -1,6 +1,5 @@
 name: 'Microsoft Teams Notification'
 description: 'Send a custom notification message to a Microsoft Teams channel with GitHub repo details'
-author: 'jdcargile'
 branding:
   icon: message-circle
   color: purple 
