@@ -57,20 +57,6 @@ export function formatCompleteLayout(
     labels = `\`${conclusion.toUpperCase()} [${elapsedSeconds}s]\``;
   }
 
-  // Set section facts
-  section.facts = [
-    new Fact(
-      "Event type:",
-      "`" + process.env.GITHUB_EVENT_NAME?.toUpperCase() + "`"
-    ),
-    new Fact("Status:", labels),
-    new Fact(
-      "Commit message:",
-      escapeMarkdownTokens(commit.data.commit.message)
-    ),
-    new Fact("Repository & branch:", `[${branchUrl}](${branchUrl})`),
-  ];
-
   // Set custom facts
   const customFacts = getInput("custom-facts");
   if (customFacts && customFacts.toLowerCase() !== "null") {
@@ -117,6 +103,13 @@ export function formatCompleteLayout(
       value: filesToDisplay,
     });
   }
-
+  // Set section facts
+  section.facts = [
+    new Fact("Repository & branch:", `[${branchUrl}](${branchUrl})`),
+    new Fact(
+      "Commit message:",
+      escapeMarkdownTokens(commit.data.commit.message)
+    ),
+  ];
   return webhookBody;
 }

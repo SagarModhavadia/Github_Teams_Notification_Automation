@@ -2,7 +2,7 @@ name: MS Teams Notification
 on:
   push:
     branches: ['main']
-    paths: ['MyFolder/**']
+    paths: ['docs/**']
 
 jobs:
   build:
