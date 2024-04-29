@@ -9,10 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Microsoft Teams Notifications
-        uses: gor918/ms-teams-card-action@main
+        uses: ./
         with:
-          github-token: ${{ github.token }}
-          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          notification-summary: Files Committed
-          notification-color: 17a2b8
-          timezone: Europe/Bucharest
+          webhook_uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
