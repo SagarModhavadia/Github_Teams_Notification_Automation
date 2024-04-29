@@ -20,10 +20,10 @@ run_id = os.environ.get("RUN_ID")
 def send_sectioned_message():
     # start the message
     msTeams = pymsteams.connectorcard(hook_url)
-    msTeams.summary("File changes committed")
+    msTeams.summary("Changes committed by {triggering_actor}")
     teams_message_section = pymsteams.cardsection()
     
-    teams_message_section.activityTitle(f"File changes committed on [{repo_server_url}/{repo_name}]({repo_server_url}/{repo_name})")
+    teams_message_section.activityTitle(f"File changes committed on [{repo_name}]({repo_server_url}/{repo_name})")
     teams_message_section.activityImage("https://cdn-icons-png.flaticon.com/512/2111/2111432.png")
     teams_message_section.activityText(f"by @[{triggering_actor}](https://github.com/{triggering_actor}) on ")
     # section 1
