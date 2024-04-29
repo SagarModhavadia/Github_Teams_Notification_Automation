@@ -19,24 +19,25 @@ run_id = os.environ.get("RUN_ID")
 
 def send_sectioned_message():
     # start the message
-    teams_message = pymsteams.connectorcard(hook_url)
-    teams_message.activityTitle(f"File changes committed on [{repo_server_url}/{repo_name}]({repo_server_url}/{repo_name})")
-    teams_message.activityImage("http://www.clker.com/cliparts/v/u/z/w/n/2/thumbsup-md.png")
-    teams_message.activityText(f"by @[{triggering_actor}](https://github.com/{triggering_actor}) on ")
-    # section 1
-    section_1 = pymsteams.cardsection()
-    section_1.addFact("Committed by:", )
-    section_1.addFact("Commit message:", f" ")
-    section_1.addFact("Files changed:", f" ")
-    # add link button
-    teams_message.addLinkButton("View build/deploy status", f"{repo_server_url}/{repo_name}/actions/runs/{run_id}")
-    teams_message.addLinkButton("Review commit diffs", f"{repo_server_url}/{repo_name}/commit/{github_sha}")
+    msTeams = pymsteams.connectorcard(hook_url)
+    teams_message_section = pymsteams.cardsection()
     
-    teams_message.addSection(section_1)
-    teams_message.color("2cc73b")
+    teams_message_section.activityTitle(f"File changes committed on [{repo_server_url}/{repo_name}]({repo_server_url}/{repo_name})")
+    teams_message_section.activityImage("https://cdn-icons-png.flaticon.com/512/2111/2111432.png")
+    teams_message_section.activityText(f"by @[{triggering_actor}](https://github.com/{triggering_actor}) on ")
+    # section 1
+    teams_message_section.addFact("Committed by:", )
+    teams_message_section.addFact("Commit message:", f" ")
+    teams_message_section.addFact("Files changed:", f" ")
+    # add link button
+    msTeams.addLinkButton("View build/deploy status", f"{repo_server_url}/{repo_name}/actions/runs/{run_id}")
+    msTeams.addLinkButton("Review commit diffs", f"{repo_server_url}/{repo_name}/commit/{github_sha}")
+    
+    msTeams.addSection(teams_message_section)
+    msTeams.color("2cc73b")
     try:
-        teams_message.send()
-        evaluate_response(teams_message.last_http_response.status_code)
+        msTeams.send()
+        evaluate_response(msTeams.last_http_response.status_code)
     except requests.exceptions.Timeout as te:
         logging.warning(te)
         logging.warning("The Teams notification will be skipped due to the timeout exception!!!")
