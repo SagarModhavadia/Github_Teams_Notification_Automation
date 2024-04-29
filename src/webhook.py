@@ -24,7 +24,7 @@ def send_sectioned_message():
     # start the message
     teams_message = pymsteams.connectorcard(hook_url)
     teams_message.title(f"Workflow '{workflow_name}' {input_data['status']}")
-    teams_message.text(f"")
+    teams_message.text(f" ")
 
     # section 1
     section_1 = pymsteams.cardsection()
