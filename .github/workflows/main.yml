@@ -5,10 +5,15 @@ on:
     paths: ['docs/**']
 
 jobs:
-  build:
+  send-msteams-notification:
     runs-on: ubuntu-latest
+    name: Sends a notifications to MS Teams
     steps:
-      - name: Microsoft Teams Notifications
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Notification
+        if: always()
+        id: send_notification
         uses: ./
         with:
           webhook_uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
