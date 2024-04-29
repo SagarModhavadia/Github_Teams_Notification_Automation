@@ -24,14 +24,13 @@ def send_sectioned_message():
     teams_message.text(f" ")
     # section 1
     section_1 = pymsteams.cardsection()
-    section_1.activityTitle(f"Committed By: [{triggering_actor}](https://github.com/{triggering_actor})")
-    section_1.activitySubtitle(f"my activity subtitle")
-    # add link button
-    teams_message.addLinkButton("Go to Action", f"{repo_server_url}/{repo_name}/actions/runs/{run_id}")
-
+    section_1.activitySubtitle(f"Committed By: [{triggering_actor}](https://github.com/{triggering_actor})")
     # add facts
-    for k, v in dict({"Files Changed": f" ", "Commit": f"{repo_server_url}/{repo_name}/commit/{github_sha}"}).items():
-        section_1.addFact(k, v)
+    section_1.addFact("Files Changed:", f" ")
+    # add link button
+    teams_message.addLinkButton("View build/deploy status", f"{repo_server_url}/{repo_name}/actions/runs/{run_id}")
+    teams_message.addLinkButton("Review commit diffs", f"{repo_server_url}/{repo_name}/commit/{github_sha}")
+    
     teams_message.addSection(section_1)
     teams_message.color("2cc73b")
     try:
