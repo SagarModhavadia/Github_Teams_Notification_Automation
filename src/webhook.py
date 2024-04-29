@@ -20,28 +20,22 @@ run_id = os.environ.get("RUN_ID")
 
 
 def send_sectioned_message():
-    input_data = determine_input()
     # start the message
     teams_message = pymsteams.connectorcard(hook_url)
-    teams_message.title(f"Workflow '{workflow_name}' {input_data['status']}")
+    teams_message.title(f"File changes committed!")
     teams_message.text(f" ")
 
     # section 1
     section_1 = pymsteams.cardsection()
     section_1.activityTitle(f"Committed By: {triggering_actor}")
-    section_1.activityTitle(f"Commit: {repo_server_url}/{repo_name}/commit/{github_sha}")
     # add link button
     teams_message.addLinkButton("Go to Action", f"{repo_server_url}/{repo_name}/actions/runs/{run_id}")
 
     # add facts
-    for k, v in json.loads(facts).items():
-        section_1.addFact(k, v)
-    for k, v in dict({"Files Changed": f" ", "Workflow name": f"{workflow_name}"}).items():
+    for k, v in dict({"Files Changed": f" ", "Commit": f"{repo_server_url}/{repo_name}/commit/{github_sha}"}).items():
         section_1.addFact(k, v)
     teams_message.addSection(section_1)
-    teams_message.color(input_data["color"])
-    # teams_message.printme()
-    # send
+    teams_message.color("2cc73b")
     try:
         teams_message.send()
         evaluate_response(teams_message.last_http_response.status_code)
@@ -57,14 +51,3 @@ def evaluate_response(resp_status_code):
     else:
         logging.error("Unexpected response: %s", resp_status_code)
         raise ValueError(f"Unexpected response: '{resp_status_code}'")
-
-
-def determine_input():
-    msg = f"Job name: '{job_name}' of the workflow '{workflow_name}'"
-    return {
-        "iconUrl": "",
-        "color": "2cc73b",
-        "title": f"File changes committed!",
-        "status": "succeeded"
-    }
-       
