@@ -20,29 +20,23 @@ run_id = os.environ.get("RUN_ID")
 
 
 def send_sectioned_message():
-    """
-        This sends a message with sections.
-    """
-
     input_data = determine_input()
     # start the message
     teams_message = pymsteams.connectorcard(hook_url)
     teams_message.title(f"Workflow '{workflow_name}' {input_data['status']}")
-    teams_message.text(f"{repo_server_url}/{repo_name}/commit/{github_sha}")
+    teams_message.text(f"")
 
     # section 1
     section_1 = pymsteams.cardsection()
-    # section_1.title(input_data["title"])
-    section_1.activityTitle(f"Triggering actor: {triggering_actor}")
-    section_1.activityImage(input_data["iconUrl"])
-
+    section_1.activityTitle(f"Committed By: {triggering_actor}")
+    section_1.activityTitle(f"Commit: {repo_server_url}/{repo_name}/commit/{github_sha}")
     # add link button
     teams_message.addLinkButton("Go to Action", f"{repo_server_url}/{repo_name}/actions/runs/{run_id}")
 
     # add facts
     for k, v in json.loads(facts).items():
         section_1.addFact(k, v)
-    for k, v in dict({"Job name": f"{job_name}", "Workflow name": f"{workflow_name}"}).items():
+    for k, v in dict({"Files Changed": f" ", "Workflow name": f"{workflow_name}"}).items():
         section_1.addFact(k, v)
     teams_message.addSection(section_1)
     teams_message.color(input_data["color"])
@@ -66,35 +60,11 @@ def evaluate_response(resp_status_code):
 
 
 def determine_input():
-    """
-        This function determines and icon, color and a title text based on the status of the job.
-        The expected status values 'failed', 'cancelled', 'success'
-    """
-
     msg = f"Job name: '{job_name}' of the workflow '{workflow_name}'"
-    match job_status:
-        case 'failure':
-            return {
-                "iconUrl": "",
-                "color": "ae1314",
-                "title": f"{msg} has failed",
-                "status": "failed"
-            }
-        case 'cancelled':
-            return {
-                "iconUrl": ""
-                           "cancelled.png",
-                "color": "ffec50",
-                "title": f"{msg} has been cancelled",
-                "status": "cancelled"
-            }
-        case 'success':
-            return {
-                "iconUrl": "",
-                "color": "2cc73b",
-                "title": f"{msg} has successfully finished",
-                "status": "succeeded"
-            }
-        case _:
-            logging.error("Unexpected response: %s", job_status)
-            raise ValueError(f"The job_status contains unexpected value: '{job_status}'")
+    return {
+        "iconUrl": "",
+        "color": "2cc73b",
+        "title": f"File changes committed!",
+        "status": "succeeded"
+    }
+       
