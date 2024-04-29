@@ -48,6 +48,10 @@ inputs:
   webhook_uri:
     description: 'MS Teams webhook URI'
     required: true
+  commit_message:
+    description: 'Commit message'
+    required: false
+    default: ${{ github.event.head_commit.message }}
 
 runs:
   using: 'composite'
@@ -64,6 +68,7 @@ runs:
           [[ "${{ inputs.github_sha }}" ]] || { echo "github_sha is not provided" ; exit 1; }
           [[ "${{ inputs.run_id }}" ]] || { echo "  run_id is not provided" ; exit 1; }
           [[ "${{ inputs.webhook_uri }}" ]] || { echo "webhook_uri is not provided" ; exit 1; }
+          [[ "${{ inputs.commit_message }}" ]] || { echo "commit_message is not provided" ; exit 1; }
       shell: bash
     - name: Install Python
       uses: actions/setup-python@v4
@@ -83,6 +88,7 @@ runs:
         GITHUB_SHA: ${{ inputs.github_sha }}
         RUN_ID: ${{ inputs.run_id }}
         WEBHOOK_URI: ${{ inputs.webhook_uri }}
+        COMMIT_MESSAGE: ${{ inputs.commit_message }}
       run: |
         cd ${{github.action_path}}
         pip install --upgrade pip
