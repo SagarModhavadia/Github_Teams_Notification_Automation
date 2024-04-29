@@ -21,11 +21,11 @@ def send_sectioned_message():
     # start the message
     teams_message = pymsteams.connectorcard(hook_url)
     teams_message.title(f"File changes committed!")
-    teams_message.text(f" ")
 
     # section 1
     section_1 = pymsteams.cardsection()
-    section_1.activityTitle(f"Committed By: {triggering_actor}")
+    section_1.activityTitle(f"Committed By: [{triggering_actor}](https://github.com/{triggering_actor})")
+    section_1.activitySubtitle(f"my activity subtitle")
     # add link button
     teams_message.addLinkButton("Go to Action", f"{repo_server_url}/{repo_name}/actions/runs/{run_id}")
 
