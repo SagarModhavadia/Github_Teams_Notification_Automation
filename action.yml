@@ -1,7 +1,6 @@
 # action.yaml
-name: 'Simple MS Teams Notifier Action'
+name: 'Microsoft Teams Notifications'
 description: 'A Github Action that sends notification to the MS Teams'
-author: "Rafal Slowik"
 branding:
   icon: "activity" # icon name from Feather open source icons pack
   color: "blue"
