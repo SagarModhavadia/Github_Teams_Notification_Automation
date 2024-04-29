@@ -26,7 +26,6 @@ def send_sectioned_message():
     teams_message_section.activityImage("https://cdn-icons-png.flaticon.com/512/2111/2111432.png")
     teams_message_section.activityText(f"by @[{triggering_actor}](https://github.com/{triggering_actor}) on ")
     # section 1
-    teams_message_section.addFact("Committed by:", )
     teams_message_section.addFact("Commit message:", f" ")
     teams_message_section.addFact("Files changed:", f" ")
     # add link button
