@@ -17,7 +17,6 @@ triggering_actor = os.environ.get("TRIGGERING_ACTOR")
 github_sha = os.environ.get("GITHUB_SHA")
 run_id = os.environ.get("RUN_ID")
 
-
 def send_sectioned_message():
     # start the message
     teams_message = pymsteams.connectorcard(hook_url)
@@ -50,3 +49,5 @@ def evaluate_response(resp_status_code):
     else:
         logging.error("Unexpected response: %s", resp_status_code)
         raise ValueError(f"Unexpected response: '{resp_status_code}'")
+    
+send_sectioned_message()
