@@ -20,13 +20,14 @@ run_id = os.environ.get("RUN_ID")
 def send_sectioned_message():
     # start the message
     teams_message = pymsteams.connectorcard(hook_url)
-    teams_message.title(f"File changes committed!")
-    teams_message.text(f" ")
+    teams_message.activityTitle(f"File changes committed on [{repo_server_url}/{repo_name}]({repo_server_url}/{repo_name})")
+    teams_message.activityImage("http://www.clker.com/cliparts/v/u/z/w/n/2/thumbsup-md.png")
+    teams_message.activityText(f"by @[{triggering_actor}](https://github.com/{triggering_actor}) on ")
     # section 1
     section_1 = pymsteams.cardsection()
-    section_1.activitySubtitle(f"Committed By: [{triggering_actor}](https://github.com/{triggering_actor})")
-    # add facts
-    section_1.addFact("Files Changed:", f" ")
+    section_1.addFact("Committed by:", )
+    section_1.addFact("Commit message:", f" ")
+    section_1.addFact("Files changed:", f" ")
     # add link button
     teams_message.addLinkButton("View build/deploy status", f"{repo_server_url}/{repo_name}/actions/runs/{run_id}")
     teams_message.addLinkButton("Review commit diffs", f"{repo_server_url}/{repo_name}/commit/{github_sha}")
