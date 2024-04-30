@@ -2,6 +2,7 @@ import pymsteams
 import os
 import logging
 import requests.exceptions
+import github
 from github import Github
 from github import Auth
 
@@ -26,12 +27,12 @@ def send_sectioned_message():
 
     # using an access token
     auth = Auth.Token("{github_token}")
+    github.enable_console_debug_logging()
     # Public Web Github
     g = Github(auth=auth)
     # Then play with your Github objects:
     for repo in g.get_user().get_repos():
         print(repo.name)
-
     # To close connections after use
     g.close()
 
