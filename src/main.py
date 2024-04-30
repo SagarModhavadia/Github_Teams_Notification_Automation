@@ -26,11 +26,11 @@ github_branch = os.environ.get("GITHUB_BRANCH")
 def send_sectioned_message():
 
     # using an access token
-    auth = Auth.Token("{github_token}")
+    auth = Auth.Token(f"{github_token}")
     github.enable_console_debug_logging()
     # Public Web Github
     g = Github(auth=auth)
-    commit = g.get_repo("Github_Teams_Notification_Automation").get_commit(sha="{github_sha}")
+    commit = g.get_repo("Github_Teams_Notification_Automation").get_commit(sha=f"{github_sha}")
     print(commit.author)
     print(commit.committer)
     print(commit.last_modified)
