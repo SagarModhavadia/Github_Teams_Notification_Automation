@@ -16,7 +16,9 @@ hook_url = os.environ.get("WEBHOOK_URI")
 triggering_actor = os.environ.get("TRIGGERING_ACTOR")
 github_sha = os.environ.get("GITHUB_SHA")
 run_id = os.environ.get("RUN_ID")
+run_number = os.environ.get("RUN_NUMBER")
 commit_message = os.environ.get("COMMIT_MESSAGE")
+github_branch = os.environ.get("GITHUB_BRANCH")
 
 def send_sectioned_message():
     # start the message
@@ -24,10 +26,12 @@ def send_sectioned_message():
     msTeams.summary(f"Changes committed by {triggering_actor}")
     teams_message_section = pymsteams.cardsection()
     
-    teams_message_section.activityTitle(f"File changes committed on [{repo_name}]({repo_server_url}/{repo_name})")
+    teams_message_section.activityTitle(f"CI #{run_number} ({run_id}) File changes committed on [{repo_name}]({repo_server_url}/{repo_name})")
     teams_message_section.activityImage("https://cdn-icons-png.flaticon.com/512/2111/2111432.png")
     teams_message_section.activityText(f"by [@{triggering_actor}](https://github.com/{triggering_actor}) on ")
     # section 1
+    teams_message_section.addFact("Environment:", f" ")
+    teams_message_section.addFact("Branch:", f"{github_branch}")
     teams_message_section.addFact("Commit message:", f"{commit_message}")
     teams_message_section.addFact("Files changed:", f" ")
     # add link button
