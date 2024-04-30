@@ -2,6 +2,8 @@ import pymsteams
 import os
 import logging
 import requests.exceptions
+from github import Github
+from github import Auth
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s')
 
@@ -21,6 +23,18 @@ commit_message = os.environ.get("COMMIT_MESSAGE")
 github_branch = os.environ.get("GITHUB_BRANCH")
 
 def send_sectioned_message():
+
+    # using an access token
+    auth = Auth.Token("{github_token}")
+    # Public Web Github
+    g = Github(auth=auth)
+    # Then play with your Github objects:
+    for repo in g.get_user().get_repos():
+        print(repo.name)
+
+    # To close connections after use
+    g.close()
+
     # start the message
     msTeams = pymsteams.connectorcard(hook_url)
     msTeams.summary(f"Changes committed by {triggering_actor}")
