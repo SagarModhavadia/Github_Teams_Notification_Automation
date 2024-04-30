@@ -31,7 +31,7 @@ def send_sectioned_message():
     teams_message_section.activityText(f"by [@{triggering_actor}](https://github.com/{triggering_actor}) on ")
     # section 1
     teams_message_section.addFact("Environment:", f" ")
-    teams_message_section.addFact("Branch:", f"{github_branch.upper()}")
+    teams_message_section.addFact("Branch:", f"[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})")
     teams_message_section.addFact("Commit message:", f"{commit_message}")
     teams_message_section.addFact("Files changed:", f" ")
     # add link button
