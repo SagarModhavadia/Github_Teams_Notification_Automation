@@ -28,6 +28,7 @@ def send_sectioned_message():
     # using an access token
     auth = Auth.Token("{token}")
     # Public Web Github
+    print(f"Token: {token}")
     g = Github(login_or_token={token})
     user = g.get_user()
     print(user.login)
