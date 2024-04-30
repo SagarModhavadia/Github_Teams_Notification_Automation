@@ -31,10 +31,7 @@ def send_sectioned_message():
     # Public Web Github
     g = Github(auth=auth)
     commit = g.get_repo(f"{repo_name}").get_commit(sha=f"{github_sha}")
-    print(commit.author)
-    print(commit.committer)
-    print(commit.last_modified)
-    print(commit.commit.message)
+    print(f"{commit}")
     # To close connections after use
     g.close()
 
@@ -45,7 +42,7 @@ def send_sectioned_message():
     
     teams_message_section.activityTitle(f"CI #{run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})")
     teams_message_section.activityImage("https://cdn-icons-png.flaticon.com/512/2111/2111432.png")
-    teams_message_section.activityText(f"by [@{triggering_actor}](https://github.com/{triggering_actor}) on ")
+    teams_message_section.activityText(f"by [@{triggering_actor}](https://github.com/{triggering_actor}) on {commit.last_modified}")
     # section 1
     teams_message_section.addFact("Environment:", f" ")
     teams_message_section.addFact("Branch:", f"[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})")
