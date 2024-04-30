@@ -31,11 +31,8 @@ def send_sectioned_message():
     g = Github(auth=auth)
     # Github Enterprise with custom hostname
     g = Github(auth=auth, base_url="https://github.com/api/v3")
-    for repo in g.get_user().get_repos():
-        print(repo.name)
-        repo.edit(has_wiki=False)
-        # to see all the available attributes and methods
-        print(dir(repo))
+    user = g.get_user()
+    print(user.login)
     g.close()
     msTeams = pymsteams.connectorcard(hook_url)
     msTeams.summary(f"Changes committed by {triggering_actor}")
