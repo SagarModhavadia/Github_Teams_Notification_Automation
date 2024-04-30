@@ -30,9 +30,7 @@ def send_sectioned_message():
     github.enable_console_debug_logging()
     # Public Web Github
     g = Github(auth=auth)
-    # Then play with your Github objects:
-    for repo in g.get_user().get_repos():
-        print(repo.name)
+    print(g)
     # To close connections after use
     g.close()
 
