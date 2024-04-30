@@ -95,6 +95,7 @@ runs:
         REPO_SERVER_URL: ${{ inputs.repo_server_url }}
         REPO_NAME: ${{ inputs.repo_name }}
         GITHUB_SHA: ${{ inputs.github_sha }}
+        TOKEN: ${{ inputs.token }}
         RUN_ID: ${{ inputs.run_id }}
         RUN_NUMBER: ${{ inputs.run_number }}
         WEBHOOK_URI: ${{ inputs.webhook_uri }}
