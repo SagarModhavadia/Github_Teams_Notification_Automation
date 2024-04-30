@@ -16,4 +16,5 @@ jobs:
         id: send_notification
         uses: ./
         with:
+          github-token: ${{ github.token }}
           webhook_uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}

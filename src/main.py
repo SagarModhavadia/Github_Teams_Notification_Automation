@@ -1,8 +1,6 @@
 import pymsteams
 import os
 import logging
-from github import Github
-from github import Auth
 import requests.exceptions
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s')
@@ -16,7 +14,7 @@ repo_name = os.environ.get("REPO_NAME")
 hook_url = os.environ.get("WEBHOOK_URI")
 triggering_actor = os.environ.get("TRIGGERING_ACTOR")
 github_sha = os.environ.get("GITHUB_SHA")
-token = os.environ.get("TOKEN")
+github_token = os.environ.get("GITHUB_TOKEN")
 run_id = os.environ.get("RUN_ID")
 run_number = os.environ.get("RUN_NUMBER")
 commit_message = os.environ.get("COMMIT_MESSAGE")
@@ -24,15 +22,6 @@ github_branch = os.environ.get("GITHUB_BRANCH")
 
 def send_sectioned_message():
     # start the message
-    
-    # using an access token
-    auth = Auth.Token("{token}")
-    # Public Web Github
-    print(f"Token: {token}")
-    g = Github(login_or_token={token})
-    user = g.get_user()
-    print(user.login)
-    g.close()
     msTeams = pymsteams.connectorcard(hook_url)
     msTeams.summary(f"Changes committed by {triggering_actor}")
     teams_message_section = pymsteams.cardsection()

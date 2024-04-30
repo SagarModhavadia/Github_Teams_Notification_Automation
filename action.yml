@@ -46,9 +46,9 @@ inputs:
     description: 'Workflow run number '
     required: true
     default: ${{github.run_number}}
-  token:
+  github_token:
     description: 'GitHub token'
-    default: ${{ github.server_url == 'https://github.com' && github.token || '' }}
+    required: true 
   webhook_uri:
     description: 'MS Teams webhook URI'
     required: true
@@ -83,7 +83,7 @@ runs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.11.1'
-        token: ${{ inputs.token }}
+        token: ${{ inputs.github_token }}
     - name: Sends a notification to ms teams
       id: send-msteams
       env:
@@ -95,7 +95,7 @@ runs:
         REPO_SERVER_URL: ${{ inputs.repo_server_url }}
         REPO_NAME: ${{ inputs.repo_name }}
         GITHUB_SHA: ${{ inputs.github_sha }}
-        TOKEN: ${{ inputs.token }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
         RUN_ID: ${{ inputs.run_id }}
         RUN_NUMBER: ${{ inputs.run_number }}
         WEBHOOK_URI: ${{ inputs.webhook_uri }}
