@@ -26,7 +26,7 @@ def send_sectioned_message():
     # start the message
     
     # using an access token
-    auth = Auth.Token({token})
+    auth = Auth.Token("{token}")
     # Public Web Github
     g = Github(auth=auth)
     # Github Enterprise with custom hostname
