@@ -30,7 +30,7 @@ def send_sectioned_message():
     github.enable_console_debug_logging()
     # Public Web Github
     g = Github(auth=auth)
-    commit = g.get_repo("Github_Teams_Notification_Automation").get_commit(sha=f"{github_sha}")
+    commit = g.get_repo(f"{repo_name}").get_commit(sha=f"{github_sha}")
     print(commit.author)
     print(commit.committer)
     print(commit.last_modified)
