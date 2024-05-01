@@ -16,7 +16,7 @@ run_id = os.environ.get("RUN_ID")
 run_number = os.environ.get("RUN_NUMBER")
 github_branch = os.environ.get("GITHUB_BRANCH")
 
-def send_teams_message():
+def send_teams_message(notificationURL):
     auth = Auth.Token(f"{github_token}")
     github = Github(auth=auth)
     repo = github.get_repo(f"{repo_name}")
@@ -26,7 +26,7 @@ def send_teams_message():
         modifiedFiles += f"# [{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n"
     github.close()
     # start the message
-    msTeams = pymsteams.connectorcard(hook_url)
+    msTeams = pymsteams.connectorcard(notificationURL)
     msTeams.summary(f"Changes committed by {commit.committer.name}")
     teams_message_section = pymsteams.cardsection()
     
@@ -59,4 +59,4 @@ def evaluate_response(resp_status_code):
         logging.error("Unexpected response: %s", resp_status_code)
         raise ValueError(f"Unexpected response: '{resp_status_code}'")
     
-send_teams_message()
+send_teams_message(f"https://prod-143.westus.logic.azure.com:443/workflows/b4c5c338f1204fd996fb3579b554c947/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=pbPqwQbiTHFepQusyNQVW6DME2xRTLLLKNyNoB1eh7k")
