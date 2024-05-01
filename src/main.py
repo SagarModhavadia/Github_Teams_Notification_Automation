@@ -103,9 +103,9 @@ def send_teams_bot_message(notificationURL):
                     columns=[
                         Column(
                             items=[
-                                TextBlock(text=f"Branch: [{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})"),
-                                TextBlock(text=f"Commit message: {commit.commit.message}"),
-                                TextBlock(text=f"Files changed: {modifiedFiles}")
+                                TextBlock(text=f"~Branch:~ [{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})"),
+                                TextBlock(text=f"!Commit message:! {commit.commit.message}"),
+                                TextBlock(text=f"*Files changed:* {modifiedFiles}")
                             ]
                         )
                     ]
