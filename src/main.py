@@ -21,7 +21,6 @@ def send_teams_message():
     github = Github(auth=auth)
     repo = github.get_repo(f"{repo_name}")
     commit = repo.get_commit(sha=f"{github_sha}")
-    print(f"Commit::: {commit}")
     modifiedFiles = ""
     for file in commit.files:
         modifiedFiles += f"# [{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n"
@@ -34,7 +33,7 @@ def send_teams_message():
     
     teams_message_section.activityTitle(f"CI #{run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})")
     teams_message_section.activityImage("https://cdn-icons-png.flaticon.com/512/2111/2111432.png")
-    teams_message_section.activityText(f"by [@{commit.committer.id}](https://github.com/{commit.committer.id}) on {commit.last_modified}")
+    teams_message_section.activityText(f"by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.last_modified}")
     # section 1
     teams_message_section.addFact("Branch:", f"[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})")
     teams_message_section.addFact("Commit message:", f"{commit.commit.message}")
