@@ -72,7 +72,7 @@ def send_teams_bot_message(notificationURL):
     commit = repo.get_commit(sha=f"{github_sha}")
     modifiedFiles = ""
     for file in commit.files:
-        modifiedFiles += f"# [{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n"
+        modifiedFiles += f" [{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n"
     github.close()
     # start the bot message
     containers: list[ContainerTypes] = []
@@ -103,9 +103,9 @@ def send_teams_bot_message(notificationURL):
                     columns=[
                         Column(
                             items=[
-                                TextBlock(text=f"~Branch:~ [{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})"),
-                                TextBlock(text=f"!Commit message:! {commit.commit.message}"),
-                                TextBlock(text=f"*Files changed:* {modifiedFiles}")
+                                TextBlock(text=f"**Branch:** [{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})"),
+                                TextBlock(text=f"**Commit message:** {commit.commit.message}"),
+                                TextBlock(text=f"**Files changed:** {modifiedFiles}")
                             ]
                         )
                     ]
