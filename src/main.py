@@ -17,7 +17,7 @@ run_id = os.environ.get("RUN_ID")
 run_number = os.environ.get("RUN_NUMBER")
 github_branch = os.environ.get("GITHUB_BRANCH")
 
-def send_sectioned_message():
+def send_teams_message():
     auth = Auth.Token(f"{github_token}")
     github = Github(auth=auth)
     repo = github.get_repo(f"{repo_name}")
@@ -61,4 +61,4 @@ def evaluate_response(resp_status_code):
         logging.error("Unexpected response: %s", resp_status_code)
         raise ValueError(f"Unexpected response: '{resp_status_code}'")
     
-send_sectioned_message()
+send_teams_message()
