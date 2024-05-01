@@ -19,7 +19,6 @@ github_sha = os.environ.get("GITHUB_SHA")
 github_token = os.environ.get("GITHUB_TOKEN")
 run_id = os.environ.get("RUN_ID")
 run_number = os.environ.get("RUN_NUMBER")
-commit_message = os.environ.get("COMMIT_MESSAGE")
 github_branch = os.environ.get("GITHUB_BRANCH")
 
 def send_sectioned_message():
@@ -27,8 +26,9 @@ def send_sectioned_message():
     github = Github(auth=auth)
     repo = github.get_repo(f"{repo_name}")
     commit = repo.get_commit(sha=f"{github_sha}")
+    modifiedFiles = ""
     for file in commit.files:
-        print(f"File #{file.filename}")
+        modifiedFiles += f"# {file.filename}\n"
     github.close()
 
     # start the message
@@ -41,8 +41,8 @@ def send_sectioned_message():
     teams_message_section.activityText(f"by [@{triggering_actor}](https://github.com/{triggering_actor}) on {commit.last_modified}")
     # section 1
     teams_message_section.addFact("Branch:", f"[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})")
-    teams_message_section.addFact("Commit message:", f"{commit_message}")
-    teams_message_section.addFact("Files changed:", f" ")
+    teams_message_section.addFact("Commit message:", f"{commit.commit.message}")
+    teams_message_section.addFact("Files changed:", f"{modifiedFiles}")
     # add link button
     msTeams.addLinkButton("View build/deploy status", f"{repo_server_url}/{repo_name}/actions/runs/{run_id}")
     msTeams.addLinkButton("Review commit diffs", f"{repo_server_url}/{repo_name}/commit/{github_sha}")

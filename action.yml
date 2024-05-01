@@ -52,10 +52,6 @@ inputs:
   webhook_uri:
     description: 'MS Teams webhook URI'
     required: true
-  commit_message:
-    description: 'Commit message'
-    required: false
-    default: ${{ github.event.head_commit.message }}
   github_branch:
     description: 'Branch name'
     required: false
@@ -76,7 +72,6 @@ runs:
           [[ "${{ inputs.run_id }}" ]] || { echo "run_id is not provided" ; exit 1; }
           [[ "${{ inputs.run_number }}" ]] || { echo "run_number is not provided" ; exit 1; }
           [[ "${{ inputs.webhook_uri }}" ]] || { echo "webhook_uri is not provided" ; exit 1; }
-          [[ "${{ inputs.commit_message }}" ]] || { echo "commit_message is not provided" ; exit 1; }
           [[ "${{ inputs.github_branch }}" ]] || { echo "github_branch is not provided" ; exit 1; }
       shell: bash
     - name: Install Python
@@ -99,7 +94,6 @@ runs:
         RUN_ID: ${{ inputs.run_id }}
         RUN_NUMBER: ${{ inputs.run_number }}
         WEBHOOK_URI: ${{ inputs.webhook_uri }}
-        COMMIT_MESSAGE: ${{ inputs.commit_message }}
         GITHUB_BRANCH: ${{ inputs.github_branch }}
       run: |
         cd ${{github.action_path}}
