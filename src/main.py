@@ -218,7 +218,7 @@ def send_teams_bot_message(notificationURL):
         )
     )
 
-    card = AdaptiveCard.new().version("1.4").add_items(containers).create()
+    card = AdaptiveCard.new().version("1.5").add_items(containers).create()
 
     validator: SchemaValidator = SchemaValidator()
     result: Result = validator.validate(card)
