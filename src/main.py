@@ -2,7 +2,6 @@ import pymsteams
 import os
 import logging
 import requests.exceptions
-import github
 from github import Github
 from github import Auth
 
@@ -24,16 +23,12 @@ commit_message = os.environ.get("COMMIT_MESSAGE")
 github_branch = os.environ.get("GITHUB_BRANCH")
 
 def send_sectioned_message():
-
-    # using an access token
     auth = Auth.Token(f"{github_token}")
-    github.enable_console_debug_logging()
-    # Public Web Github
-    g = Github(auth=auth)
-    commit = g.get_repo(f"{repo_name}").get_commit(sha=f"{github_sha}")
-    print(f"{commit}")
-    # To close connections after use
-    g.close()
+    github = Github(auth=auth)
+    commit = github.get_repo(f"{repo_name}").get_commit(sha=f"{github_sha}")
+    for item in github.get_repo(f"{repo_name}").index.diff(None):
+        print(item.a_path)
+    github.close()
 
     # start the message
     msTeams = pymsteams.connectorcard(hook_url)
@@ -44,7 +39,6 @@ def send_sectioned_message():
     teams_message_section.activityImage("https://cdn-icons-png.flaticon.com/512/2111/2111432.png")
     teams_message_section.activityText(f"by [@{triggering_actor}](https://github.com/{triggering_actor}) on {commit.last_modified}")
     # section 1
-    teams_message_section.addFact("Environment:", f" ")
     teams_message_section.addFact("Branch:", f"[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})")
     teams_message_section.addFact("Commit message:", f"{commit_message}")
     teams_message_section.addFact("Files changed:", f" ")
