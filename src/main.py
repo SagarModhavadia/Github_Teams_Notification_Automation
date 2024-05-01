@@ -5,7 +5,7 @@ import requests.exceptions
 from github import Github
 from github import Auth
 import adaptive_cards.card_types as types
-from adaptive_cards.actions import ActionToggleVisibility, TargetElement
+from adaptive_cards.actions import Action, ActionOpenUrl
 from adaptive_cards.card import AdaptiveCard
 from adaptive_cards.elements import TextBlock, Image
 from adaptive_cards.containers import Container, ContainerTypes, ColumnSet, Column
@@ -84,7 +84,8 @@ def send_teams_bot_message(notificationURL):
             Column(items=[Image(url=icon_url, width="40px")], width="auto"),
             Column(
                 items=[
-                    TextBlock(text=f"CI #{run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})", size=types.FontSize.LARGE)
+                    TextBlock(text=f"CI #{run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})", size=types.FontSize.LARGE),
+                    TextBlock(text=f"by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.last_modified}", size=types.FontSize.MEDIUM)
                 ],
                 width="stretch",
             ),
@@ -95,7 +96,6 @@ def send_teams_bot_message(notificationURL):
             items=[header_column_set], style=types.ContainerStyle.EMPHASIS, bleed=True
         )
     )
-
     containers.append(
         Container(
             items=[
@@ -103,23 +103,17 @@ def send_teams_bot_message(notificationURL):
                     columns=[
                         Column(
                             items=[
-                                TextBlock(text="Branch:"),
-                                TextBlock(text="Commit message:"),
-                                TextBlock(text="Files changed")
+                                TextBlock(text=f"Branch: [{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})"),
+                                TextBlock(text=f"Commit message: {commit.commit.message}"),
+                                TextBlock(text=f"Files changed: {modifiedFiles}")
                             ]
-                        ),
-                        Column(
-                            items=[
-                                TextBlock(text=f"[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})"),
-                                TextBlock(text=f"{commit.commit.message}"),
-                                TextBlock(text=f"{modifiedFiles}")
-                            ]
-                        ),
+                        )
                     ]
-                ),
+                )
             ]
         )
     )
+    
     card = AdaptiveCard.new().version("1.4").add_items(containers).create()
 
     sendMessage = requests.post(notificationURL, json = card.to_json())
