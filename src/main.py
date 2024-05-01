@@ -29,12 +29,12 @@ def send_teams_message():
 
     # start the message
     msTeams = pymsteams.connectorcard(hook_url)
-    msTeams.summary(f"Changes committed by {commit.committer.name}")
+    msTeams.summary(f"Changes committed by {commit.committer.login}")
     teams_message_section = pymsteams.cardsection()
     
     teams_message_section.activityTitle(f"CI #{run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})")
     teams_message_section.activityImage("https://cdn-icons-png.flaticon.com/512/2111/2111432.png")
-    teams_message_section.activityText(f"by [@{commit.committer.name}](https://github.com/{commit.committer.name}) on {commit.last_modified}")
+    teams_message_section.activityText(f"by [@{commit.committer.id}](https://github.com/{commit.committer.id}) on {commit.last_modified}")
     # section 1
     teams_message_section.addFact("Branch:", f"[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})")
     teams_message_section.addFact("Commit message:", f"{commit.commit.message}")
