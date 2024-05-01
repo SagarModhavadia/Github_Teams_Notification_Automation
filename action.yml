@@ -10,9 +10,12 @@ inputs:
     description: 'GitHub token'
     required: true 
     default: ${{ github.token }}
-  webhook_uri:
-    description: 'MS Teams webhook URI'
-    required: true
+  teams_channel_webhook_url:
+    description: 'MS Teams Channel webhook URI'
+    required: false
+  teams_channel_botflow_url:
+    description: 'MS Teams Bot Flow URI'
+    required: false
   repo_server_url:
     description: 'Repository server URL'
     required: false
@@ -54,7 +57,8 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github_token }}
         RUN_ID: ${{ inputs.run_id }}
         RUN_NUMBER: ${{ inputs.run_number }}
-        WEBHOOK_URI: ${{ inputs.webhook_uri }}
+        TEAMS_CHANNEL_WEBHOOK_URL: ${{ inputs.teams_channel_webhook_url }}
+        TEAMS_CHANNEL_BOTFLOW_URL: ${{ inputs.teams_channel_botflow_url }}
         GITHUB_BRANCH: ${{ inputs.github_branch }}
       run: |
         cd ${{github.action_path}}

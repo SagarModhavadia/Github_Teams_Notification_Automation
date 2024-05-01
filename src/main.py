@@ -16,7 +16,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(threa
 
 repo_server_url = os.environ.get("REPO_SERVER_URL")
 repo_name = os.environ.get("REPO_NAME")
-hook_url = os.environ.get("WEBHOOK_URI")
+teams_channel_webhook_url = os.environ.get("TEAMS_CHANNEL_WEBHOOK_URL")
+teams_channel_botflow_url = os.environ.get("TEAMS_CHANNEL_BOTFLOW_URL")
 github_sha = os.environ.get("GITHUB_SHA")
 github_token = os.environ.get("GITHUB_TOKEN")
 run_id = os.environ.get("RUN_ID")
@@ -74,7 +75,7 @@ def send_teams_bot_message(notificationURL):
     for file in commit.files:
         modifiedFiles += f"# [{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n"
     github.close()
-    # start the message
+    # start the bot message
     containers: list[ContainerTypes] = []
     icon_source: str = "https://icons8.com/icon/vNXFqyQtOSbb/launch"
     icon_url: str = "https://img.icons8.com/3d-fluency/94/launched-rocket.png"
@@ -222,7 +223,10 @@ def send_teams_bot_message(notificationURL):
 
     validator: SchemaValidator = SchemaValidator()
     result: Result = validator.validate(card)
+ 
     sendMessage = requests.post(notificationURL, json = card.to_json())
 
-send_teams_channel_message(f"{hook_url}")
-send_teams_bot_message(f"https://prod-143.westus.logic.azure.com:443/workflows/b4c5c338f1204fd996fb3579b554c947/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=pbPqwQbiTHFepQusyNQVW6DME2xRTLLLKNyNoB1eh7k")
+if teams_channel_webhook_url:
+    send_teams_channel_message(f"{teams_channel_webhook_url}")
+else:
+    send_teams_bot_message(f"{teams_channel_botflow_url}")

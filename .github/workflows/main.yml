@@ -15,4 +15,4 @@ jobs:
         uses: ./
         with:
           github_token: ${{ github.token }}
-          webhook_uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          teams_channel_botflow_url: ${{ secrets.MS_TEAMS_BOT_FLOW_URI }}
