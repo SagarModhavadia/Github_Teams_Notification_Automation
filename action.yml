@@ -39,16 +39,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Change directory and validate input
-      run: |
-          [[ "${{ inputs.repo_server_url }}" ]] || { echo "repo_server_url is not provided" ; exit 1; }
-          [[ "${{ inputs.repo_name }}" ]] || { echo "repo_name is not provided" ; exit 1; }
-          [[ "${{ inputs.github_sha }}" ]] || { echo "github_sha is not provided" ; exit 1; }
-          [[ "${{ inputs.run_id }}" ]] || { echo "run_id is not provided" ; exit 1; }
-          [[ "${{ inputs.run_number }}" ]] || { echo "run_number is not provided" ; exit 1; }
-          [[ "${{ inputs.webhook_uri }}" ]] || { echo "webhook_uri is not provided" ; exit 1; }
-          [[ "${{ inputs.github_branch }}" ]] || { echo "github_branch is not provided" ; exit 1; }
-      shell: bash
     - name: Install Python
       uses: actions/setup-python@v4
       with:

@@ -25,7 +25,6 @@ def send_teams_message():
     for file in commit.files:
         modifiedFiles += f"# [{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n"
     github.close()
-
     # start the message
     msTeams = pymsteams.connectorcard(hook_url)
     msTeams.summary(f"Changes committed by {commit.committer.login}")
