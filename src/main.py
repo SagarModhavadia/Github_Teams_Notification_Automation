@@ -28,7 +28,7 @@ def send_sectioned_message():
     commit = repo.get_commit(sha=f"{github_sha}")
     modifiedFiles = ""
     for file in commit.files:
-        modifiedFiles += f"# {file.filename}\n"
+        modifiedFiles += f"{repo_server_url}/{repo_name}/blob/main/{file.filename} \n"
     github.close()
 
     # start the message
