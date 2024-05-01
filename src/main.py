@@ -93,7 +93,7 @@ def send_teams_bot_message(notificationURL):
     )
     containers.append(
         Container(
-            items=[header_column_set], style=types.ContainerStyle.ACCENT
+            items=[header_column_set], style=types.ContainerStyle.DEFAULT
         )
     )
     containers.append(
