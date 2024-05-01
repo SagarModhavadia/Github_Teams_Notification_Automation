@@ -6,32 +6,34 @@ branding:
   color: "blue"
 
 inputs:
+  github_token: #Github token needs to be passed from Actions calling this
+    description: 'GitHub token'
+    required: true 
+    default: ${{ github.token }}
+  webhook_uri: #If webhook URI is not provided, default configured will be used
+    description: 'MS Teams webhook URI'
+    required: false
+    default: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
   repo_server_url:
     description: 'Repository server URL'
-    required: true
+    required: false
     default: ${{ github.server_url }}
   repo_name:
     description: 'Repository name'
-    required: true
+    required: false
     default: ${{github.repository}}
   github_sha:
     description: 'Github SHA'
-    required: true
+    required: false
     default: ${{github.sha}}
   run_id:
     description: 'Workflow run ID '
-    required: true
+    required: false
     default: ${{github.run_id}}
   run_number:
     description: 'Workflow run number '
-    required: true
+    required: false
     default: ${{github.run_number}}
-  github_token:
-    description: 'GitHub token'
-    required: true 
-  webhook_uri:
-    description: 'MS Teams webhook URI'
-    required: true
   github_branch:
     description: 'Branch name'
     required: false
