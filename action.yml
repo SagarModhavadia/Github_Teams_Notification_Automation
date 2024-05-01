@@ -1,5 +1,5 @@
 # action.yaml
-name: 'Simple MS Teams Notifier Action'
+name: 'MS Teams Notifier Action'
 description: 'A Github Action that sends notification to the MS Teams'
 branding:
   icon: "activity"
