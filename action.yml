@@ -10,10 +10,9 @@ inputs:
     description: 'GitHub token'
     required: true 
     default: ${{ github.token }}
-  webhook_uri: #If webhook URI is not provided, default configured will be used
+  webhook_uri:
     description: 'MS Teams webhook URI'
-    required: false
-    default: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+    required: true
   repo_server_url:
     description: 'Repository server URL'
     required: false
