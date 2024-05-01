@@ -84,7 +84,7 @@ def send_teams_bot_message(notificationURL):
             Column(items=[Image(url=icon_url, width="40px")], width="auto"),
             Column(
                 items=[
-                    TextBlock(text=f"CI #{run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})", size=types.FontSize.LARGE),
+                    TextBlock(text=f"CI {run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})", size=types.FontSize.LARGE),
                     TextBlock(text=f"by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.last_modified}", size=types.FontSize.MEDIUM)
                 ],
                 width="stretch",
@@ -93,7 +93,7 @@ def send_teams_bot_message(notificationURL):
     )
     containers.append(
         Container(
-            items=[header_column_set], style=types.ContainerStyle.EMPHASIS, bleed=True
+            items=[header_column_set], style=types.ContainerStyle.ACCENT
         )
     )
     containers.append(
