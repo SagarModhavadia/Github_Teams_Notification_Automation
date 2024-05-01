@@ -2,14 +2,10 @@
 name: 'Simple MS Teams Notifier Action'
 description: 'A Github Action that sends notification to the MS Teams'
 branding:
-  icon: "activity" # icon name from Feather open source icons pack
+  icon: "activity"
   color: "blue"
 
 inputs:
-  triggering_actor:
-    description: 'Who triggered the workflow'
-    required: true
-    default: ${{ github.triggering_actor }}
   repo_server_url:
     description: 'Repository server URL'
     required: true
@@ -45,7 +41,6 @@ runs:
   steps:
     - name: Change directory and validate input
       run: |
-          [[ "${{ inputs.triggering_actor }}" ]] || { echo "triggering_actor is not provided" ; exit 1; }
           [[ "${{ inputs.repo_server_url }}" ]] || { echo "repo_server_url is not provided" ; exit 1; }
           [[ "${{ inputs.repo_name }}" ]] || { echo "repo_name is not provided" ; exit 1; }
           [[ "${{ inputs.github_sha }}" ]] || { echo "github_sha is not provided" ; exit 1; }
@@ -62,7 +57,6 @@ runs:
     - name: Sends a notification to ms teams
       id: send-msteams
       env:
-        TRIGGERING_ACTOR: ${{ inputs.triggering_actor }}
         REPO_SERVER_URL: ${{ inputs.repo_server_url }}
         REPO_NAME: ${{ inputs.repo_name }}
         GITHUB_SHA: ${{ inputs.github_sha }}

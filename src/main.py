@@ -10,7 +10,6 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(threa
 repo_server_url = os.environ.get("REPO_SERVER_URL")
 repo_name = os.environ.get("REPO_NAME")
 hook_url = os.environ.get("WEBHOOK_URI")
-triggering_actor = os.environ.get("TRIGGERING_ACTOR")
 github_sha = os.environ.get("GITHUB_SHA")
 github_token = os.environ.get("GITHUB_TOKEN")
 run_id = os.environ.get("RUN_ID")
@@ -22,6 +21,7 @@ def send_teams_message():
     github = Github(auth=auth)
     repo = github.get_repo(f"{repo_name}")
     commit = repo.get_commit(sha=f"{github_sha}")
+    print(f"Commit::: {commit}")
     modifiedFiles = ""
     for file in commit.files:
         modifiedFiles += f"# [{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n"
@@ -29,12 +29,12 @@ def send_teams_message():
 
     # start the message
     msTeams = pymsteams.connectorcard(hook_url)
-    msTeams.summary(f"Changes committed by {triggering_actor}")
+    msTeams.summary(f"Changes committed by {commit.committer.name}")
     teams_message_section = pymsteams.cardsection()
     
     teams_message_section.activityTitle(f"CI #{run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})")
     teams_message_section.activityImage("https://cdn-icons-png.flaticon.com/512/2111/2111432.png")
-    teams_message_section.activityText(f"by [@{triggering_actor}](https://github.com/{triggering_actor}) on {commit.last_modified}")
+    teams_message_section.activityText(f"by [@{commit.committer.name}](https://github.com/{commit.committer.name}) on {commit.last_modified}")
     # section 1
     teams_message_section.addFact("Branch:", f"[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})")
     teams_message_section.addFact("Commit message:", f"{commit.commit.message}")
