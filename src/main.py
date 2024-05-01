@@ -26,8 +26,6 @@ def send_sectioned_message():
     auth = Auth.Token(f"{github_token}")
     github = Github(auth=auth)
     commit = github.get_repo(f"{repo_name}").get_commit(sha=f"{github_sha}")
-    for item in github.get_repo(f"{repo_name}").index.diff(None):
-        print(item.a_path)
     github.close()
 
     # start the message
