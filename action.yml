@@ -6,26 +6,10 @@ branding:
   color: "blue"
 
 inputs:
-  status:
-    description: "Status of the job, allowed values: 'success', 'cancelled', 'failure'"
-    required: true
-    default: ${{ job.status }}
-  job_name:
-    description: 'Name of the job'
-    required: false
-    default: ${{ github.job }}
-  workflow_name:
-    description: 'Name of the workflow'
-    required: true
-    default: ${{ github.workflow }}
   triggering_actor:
     description: 'Who triggered the workflow'
     required: true
     default: ${{ github.triggering_actor }}
-  facts:
-    description: 'Additional facts'
-    required: true
-    default: '{"Reference":"${{ github.ref }}"}'
   repo_server_url:
     description: 'Repository server URL'
     required: true
@@ -61,11 +45,7 @@ runs:
   steps:
     - name: Change directory and validate input
       run: |
-          [[ "${{ inputs.status }}" ]] || { echo "status is not provided" ; exit 1; }
-          [[ "${{ inputs.job_name }}" ]] || { echo "job_name is not provided" ; exit 1; }
-          [[ "${{ inputs.workflow_name }}" ]] || { echo "workflow_name is not provided" ; exit 1; }
           [[ "${{ inputs.triggering_actor }}" ]] || { echo "triggering_actor is not provided" ; exit 1; }
-          [[ "${{ inputs.facts }}" ]] || { echo "facts is not provided" ; exit 1; }
           [[ "${{ inputs.repo_server_url }}" ]] || { echo "repo_server_url is not provided" ; exit 1; }
           [[ "${{ inputs.repo_name }}" ]] || { echo "repo_name is not provided" ; exit 1; }
           [[ "${{ inputs.github_sha }}" ]] || { echo "github_sha is not provided" ; exit 1; }
@@ -82,11 +62,7 @@ runs:
     - name: Sends a notification to ms teams
       id: send-msteams
       env:
-        STATUS: ${{ inputs.status }}
-        JOB_NAME: ${{ inputs.job_name }}
-        WORKFLOW_NAME: ${{ inputs.workflow_name }}
         TRIGGERING_ACTOR: ${{ inputs.triggering_actor }}
-        FACTS: ${{ inputs.facts }}
         REPO_SERVER_URL: ${{ inputs.repo_server_url }}
         REPO_NAME: ${{ inputs.repo_name }}
         GITHUB_SHA: ${{ inputs.github_sha }}

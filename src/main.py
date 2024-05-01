@@ -7,10 +7,6 @@ from github import Auth
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s')
 
-job_status = os.environ.get("STATUS")
-job_name = os.environ.get("JOB_NAME")
-workflow_name = os.environ.get("WORKFLOW_NAME")
-facts = os.environ.get("FACTS")
 repo_server_url = os.environ.get("REPO_SERVER_URL")
 repo_name = os.environ.get("REPO_NAME")
 hook_url = os.environ.get("WEBHOOK_URI")
