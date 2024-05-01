@@ -222,6 +222,6 @@ def send_teams_bot_message(notificationURL):
 
     validator: SchemaValidator = SchemaValidator()
     result: Result = validator.validate(card)
-    sendMessage = requests.post(notificationURL, json = card)
+    sendMessage = requests.post(notificationURL, json = result)
 send_teams_channel_message(f"{hook_url}")
 send_teams_bot_message(f"https://prod-143.westus.logic.azure.com:443/workflows/b4c5c338f1204fd996fb3579b554c947/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=pbPqwQbiTHFepQusyNQVW6DME2xRTLLLKNyNoB1eh7k")
