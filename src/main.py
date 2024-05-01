@@ -25,7 +25,10 @@ github_branch = os.environ.get("GITHUB_BRANCH")
 def send_sectioned_message():
     auth = Auth.Token(f"{github_token}")
     github = Github(auth=auth)
-    commit = github.get_repo(f"{repo_name}").get_commit(sha=f"{github_sha}")
+    repo = github.get_repo(f"{repo_name}")
+    commit = repo.get_commit(sha=f"{github_sha}")
+    for file in commit.files:
+        print(f"File #{file.filename}")
     github.close()
 
     # start the message
