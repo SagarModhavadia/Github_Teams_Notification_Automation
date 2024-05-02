@@ -74,7 +74,7 @@
                             "style": "heading"
                         }
                     ],
-                    "width": "stretch"
+                    "width": "500px"
                 }
             ]
         },
