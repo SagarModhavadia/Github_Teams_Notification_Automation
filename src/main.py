@@ -74,7 +74,7 @@ def send_teams_bot_message(notificationURL):
         modifiedFiles += f" [{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n"
     github.close()
     # start the bot message
-    with open('src/resources/msteams_botflow_payload.json') as payload_file:
+    with open('src/resources/msteams_botflow_payload.txt') as payload_file:
         payload = payload_file.read()
         payload_mapping = {
             'GITHUB_RUN':f'CI #{run_number}',
