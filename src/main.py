@@ -115,8 +115,7 @@ def send_teams_bot_message(notificationURL):
     )
     containers.append(
         Action(
-            title=f"View build/deploy status",
-            ActionOpenUrl=f"{repo_server_url}/{repo_name}/actions/runs/{run_id}"
+            title=f"View build/deploy status"
         )
     )
     card = AdaptiveCard.new().version("1.4").add_items(containers).create()
