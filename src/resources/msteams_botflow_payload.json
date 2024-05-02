@@ -1,0 +1,163 @@
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ColumnSet",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "size": "Large",
+                                    "weight": "Bolder",
+                                    "text": "**GITHUB**",
+                                    "style": "heading",
+                                    "wrap": true
+                                }
+                            ],
+                            "width": "stretch"
+                        },
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "size": "Large",
+                                    "weight": "Bolder",
+                                    "text": "$GITHUB_RUN$",
+                                    "style": "heading",
+                                    "wrap": true
+                                }
+                            ],
+                            "width": "auto"
+                        }
+                    ]
+                }
+            ],
+            "bleed": true
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ColumnSet",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "Image",
+                                    "style": "Person",
+                                    "url": "$IMAGE$",
+                                    "altText": "$IMAGE_ALT$",
+                                    "size": "Small"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "size": "Large",
+                                    "text": "$MESSAGE_HEADER$",
+                                    "wrap": true,
+                                    "style": "heading"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "size": "medium",
+                                    "text": "$MESSAGE_SUB_HEADER$",
+                                    "wrap": true,
+                                    "style": "heading"
+                                }
+                            ],
+                            "width": "stretch"
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "width": "100px",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "Branch",
+                                            "wrap": true,
+                                            "weight": "Bolder",
+                                            "isSubtle": true
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "Commit message",
+                                            "wrap": true,
+                                            "weight": "Bolder"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "Files changed",
+                                            "wrap": true,
+                                            "weight": "Bolder"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Column",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "$BRANCH$",
+                                            "wrap": true
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "$COMMIT_MESSAGE$",
+                                            "wrap": true
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "$FILES_CHANGED$",
+                                            "wrap": true
+                                        }
+                                    ],
+                                    "width": "stretch"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.OpenUrl",
+                            "title": "View build/deploy status",
+                            "url": "$BTN_VIEW_STATUS$"
+                        },
+                        {
+                            "type": "Action.OpenUrl",
+                            "title": "Review commit diffs",
+                            "url": "$BTN_VIEW_DIFFS$"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "msteams": {
+        "width": "Full"
+    },
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.4",
+    "fallbackText": "This card requires Adaptive Cards version support to be rendered properly."
+}

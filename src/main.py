@@ -1,15 +1,7 @@
 import pymsteams
-import os
-import logging
+import os,requests, json, re, logging
 import requests.exceptions
-from github import Github
-from github import Auth
-import adaptive_cards.card_types as types
-from adaptive_cards.actions import Action, ActionTypes
-from adaptive_cards.card import AdaptiveCard
-from adaptive_cards.elements import TextBlock, Image
-from adaptive_cards.containers import Container, ContainerTypes, ColumnSet, Column
-import requests
+from github import Github, Auth
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s')
 
@@ -64,7 +56,18 @@ def evaluate_response(resp_status_code):
     else:
         logging.error("Unexpected response: %s", resp_status_code)
         raise ValueError(f"Unexpected response: '{resp_status_code}'")
+def replace_json_values(json, values):
+  # find all placeholders
+  placeholders = re.findall('<[\w ]+>', json)
+  # clear_placeholders = list(map(lambda x: x.replace('<', '').replace('>', ''), placeholders))
 
+  assert len(placeholders) == len(values), "Please enter the values of all placeholders."
+
+  # replaces all placeholders with values
+  for k, v in values.items():
+      placeholder = "<%s>" % k
+      json = json.replace(placeholder, v)
+  return json
 def send_teams_bot_message(notificationURL):
     auth = Auth.Token(f"{github_token}")
     github = Github(auth=auth)
@@ -75,46 +78,22 @@ def send_teams_bot_message(notificationURL):
         modifiedFiles += f" [{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n"
     github.close()
     # start the bot message
-    containers: list[ContainerTypes] = []
-    icon_source: str = f"{repo_server_url}/{repo_name}"
-    icon_url: str = "https://cdn-icons-png.flaticon.com/512/2111/2111432.png"
-
-    header_column_set: ColumnSet = ColumnSet(
-        columns=[
-            Column(items=[Image(url=icon_url, width="40px")], width="auto"),
-            Column(
-                items=[
-                    TextBlock(text=f"CI {run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})", size=types.FontSize.LARGE),
-                    TextBlock(text=f"by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.last_modified}", size=types.FontSize.DEFAULT)
-                ],
-                width="stretch"
-            ),
-        ]
-    )
-    containers.append(
-        Container(
-            items=[header_column_set], style=types.ContainerStyle.DEFAULT
-        )
-    )
-    containers.append(
-        Container(
-            items=[
-                ColumnSet(
-                    columns=[
-                        Column(
-                            items=[
-                                TextBlock(text=f"**Branch:** [{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})"),
-                                TextBlock(text=f"**Commit message:** {commit.commit.message}"),
-                                TextBlock(text=f"**Files changed:** {modifiedFiles}")
-                            ]
-                        )
-                    ]
-                )
-            ]
-        )
-    )
-    card = AdaptiveCard.new().version("1.4").add_items(containers).create()
-    sendMessage = requests.post(notificationURL, json = card.to_json())
+    with open("resources/msteams_botflow_payload.json") as json_file:
+        json_payload = json.load(json_file)
+        payload_mapping = {
+            '$GITHUB_RUN$':f'CI #{run_number}',
+            '$IMAGE$':f'https://cdn-icons-png.flaticon.com/512/2111/2111432.png',
+            '$IMAGE_ALT$':f'{commit.committer.login}', 
+            '$MESSAGE_HEADER$': f'File changes committed on [{repo_name}]({repo_server_url}/{repo_name})',
+            '$MESSAGE_SUB_HEADER$': f'by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.last_modified}',
+            '$BRANCH$': f'[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})',
+            '$COMMIT_MESSAGE$': f'{commit.commit.message}',
+            '$FILES_CHANGED$': f'{modifiedFiles}',
+            '$BTN_VIEW_STATUS$': f'{repo_server_url}/{repo_name}/actions/runs/{run_id}',
+            '$BTN_VIEW_DIFFS$': f'{repo_server_url}/{repo_name}/commit/{github_sha}'
+        }
+        final_json = replace_json_values(json_payload,payload_mapping)
+    sendMessage = requests.post(notificationURL, json = final_json)
 
 if teams_channel_webhook_url:
     send_teams_channel_message(f"{teams_channel_webhook_url}")
