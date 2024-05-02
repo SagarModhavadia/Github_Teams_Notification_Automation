@@ -41,40 +41,46 @@
             "bleed": true
         },
         {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                       {
+                            "type": "Image",
+                            "style": "Person",
+                            "url": "$IMAGE$",
+                            "altText": "$IMAGE_ALT$",
+                            "size": "Small"
+                        }
+                    ],
+                    "width": "auto"
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                           "type": "TextBlock",
+                            "size": "Large",
+                            "text": "$MESSAGE_HEADER$",
+                            "wrap": true,
+                            "style": "heading"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "size": "medium",
+                            "text": "$MESSAGE_SUB_HEADER$",
+                            "wrap": true,
+                            "style": "heading"
+                        }
+                    ],
+                    "width": "stretch"
+                }
+            ]
+        },
+        {
             "type": "Container",
             "items": [
-                {
-                    "type": "ColumnSet",
-                    "columns": [
-                        {
-                            "type": "Column",
-                            "items": [
-                                {
-                                    "type": "Image",
-                                    "style": "Person",
-                                    "url": "$IMAGE$",
-                                    "altText": "$IMAGE_ALT$",
-                                    "size": "Small"
-                                },
-                                {
-                                    "type": "TextBlock",
-                                    "size": "Large",
-                                    "text": "$MESSAGE_HEADER$",
-                                    "wrap": true,
-                                    "style": "heading"
-                                },
-                                {
-                                    "type": "TextBlock",
-                                    "size": "medium",
-                                    "text": "$MESSAGE_SUB_HEADER$",
-                                    "wrap": true,
-                                    "style": "heading"
-                                }
-                            ],
-                            "width": "stretch"
-                        }
-                    ]
-                },
                 {
                     "type": "Container",
                     "items": [
@@ -88,21 +94,20 @@
                                         {
                                             "type": "TextBlock",
                                             "text": "Branch",
-                                            "wrap": true,
                                             "weight": "Bolder",
                                             "isSubtle": true
                                         },
                                         {
                                             "type": "TextBlock",
                                             "text": "Commit message",
-                                            "wrap": true,
-                                            "weight": "Bolder"
+                                            "weight": "Bolder",
+                                            "isSubtle": true
                                         },
                                         {
                                             "type": "TextBlock",
                                             "text": "Files changed",
-                                            "wrap": true,
-                                            "weight": "Bolder"
+                                            "weight": "Bolder",
+                                            "isSubtle": true
                                         }
                                     ]
                                 },
