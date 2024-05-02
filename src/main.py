@@ -57,12 +57,12 @@ def evaluate_response(resp_status_code):
         logging.error("Unexpected response: %s", resp_status_code)
         raise ValueError(f"Unexpected response: '{resp_status_code}'")
 
-def replace_json_values(json, values):
+def replace_placeholder_values(source, values):
   # replaces all placeholders with values
   for k, v in values.items():
       placeholder = "$%s$" % k
-      json = json.replace(placeholder, v)
-  return json
+      source = source.replace(placeholder, v)
+  return source
 
 def send_teams_bot_message(notificationURL):
     auth = Auth.Token(f"{github_token}")
@@ -74,8 +74,8 @@ def send_teams_bot_message(notificationURL):
         modifiedFiles += f" [{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n"
     github.close()
     # start the bot message
-    with open('src/resources/msteams_botflow_payload.json') as json_file:
-        json_payload = json.load(json_file)
+    with open('src/resources/msteams_botflow_payload.json') as payload_file:
+        payload = payload_file.read()
         payload_mapping = {
             'GITHUB_RUN':f'CI #{run_number}',
             'IMAGE':f'https://cdn-icons-png.flaticon.com/512/2111/2111432.png',
@@ -88,9 +88,9 @@ def send_teams_bot_message(notificationURL):
             'BTN_VIEW_STATUS': f'{repo_server_url}/{repo_name}/actions/runs/{run_id}',
             'BTN_VIEW_DIFFS': f'{repo_server_url}/{repo_name}/commit/{github_sha}'
         }
-        final_json = replace_json_values(str(json_payload),payload_mapping)
-        print(f'{final_json}')
-        sendMessage = requests.post(notificationURL, params = final_json)
+        final_payload = replace_placeholder_values(payload,payload_mapping)
+        print(f'{final_payload}')
+        sendMessage = requests.post(notificationURL, final_payload)
 
 if teams_channel_webhook_url:
     send_teams_channel_message(f"{teams_channel_webhook_url}")
