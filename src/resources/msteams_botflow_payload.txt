@@ -61,8 +61,8 @@
                     "items": [
                         {
                            "type": "TextBlock",
-                            "size": "Large",
-                            "text": "$MESSAGE_HEADER$",
+                            "size": "medium",
+                            "text": "**$MESSAGE_HEADER$**",
                             "wrap": true,
                             "style": "heading"
                         },
