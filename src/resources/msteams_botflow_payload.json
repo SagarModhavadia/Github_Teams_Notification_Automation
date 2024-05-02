@@ -12,8 +12,8 @@
                             "items": [
                                 {
                                     "type": "TextBlock",
-                                    "size": "Large",
-                                    "weight": "Bolder",
+                                    "size": "large",
+                                    "weight": "bolder",
                                     "text": "**GITHUB**",
                                     "style": "heading",
                                     "wrap": true
@@ -26,8 +26,8 @@
                             "items": [
                                 {
                                     "type": "TextBlock",
-                                    "size": "Large",
-                                    "weight": "Bolder",
+                                    "size": "large",
+                                    "weight": "bolder",
                                     "text": "$GITHUB_RUN$",
                                     "style": "heading",
                                     "wrap": true

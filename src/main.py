@@ -89,7 +89,8 @@ def send_teams_bot_message(notificationURL):
             'BTN_VIEW_DIFFS': f'{repo_server_url}/{repo_name}/commit/{github_sha}'
         }
         final_json = replace_json_values(str(json_payload),payload_mapping)
-    sendMessage = requests.post(notificationURL, json = final_json)
+        print(f'{final_json}')
+        sendMessage = requests.post(notificationURL, params = final_json)
 
 if teams_channel_webhook_url:
     send_teams_channel_message(f"{teams_channel_webhook_url}")
