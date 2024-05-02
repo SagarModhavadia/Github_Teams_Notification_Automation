@@ -58,9 +58,7 @@ def evaluate_response(resp_status_code):
         raise ValueError(f"Unexpected response: '{resp_status_code}'")
 def replace_json_values(json, values):
   # find all placeholders
-  placeholders = re.findall('<[\w ]+>', json)
-  # clear_placeholders = list(map(lambda x: x.replace('<', '').replace('>', ''), placeholders))
-
+  placeholders = re.findall('$[\w ]+$', json)
   assert len(placeholders) == len(values), "Please enter the values of all placeholders."
 
   # replaces all placeholders with values
@@ -81,16 +79,16 @@ def send_teams_bot_message(notificationURL):
     with open('src/resources/msteams_botflow_payload.json') as json_file:
         json_payload = json.load(json_file)
         payload_mapping = {
-            '$GITHUB_RUN$':f'CI #{run_number}',
-            '$IMAGE$':f'https://cdn-icons-png.flaticon.com/512/2111/2111432.png',
-            '$IMAGE_ALT$':f'{commit.committer.login}', 
-            '$MESSAGE_HEADER$': f'File changes committed on [{repo_name}]({repo_server_url}/{repo_name})',
-            '$MESSAGE_SUB_HEADER$': f'by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.last_modified}',
-            '$BRANCH$': f'[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})',
-            '$COMMIT_MESSAGE$': f'{commit.commit.message}',
-            '$FILES_CHANGED$': f'{modifiedFiles}',
-            '$BTN_VIEW_STATUS$': f'{repo_server_url}/{repo_name}/actions/runs/{run_id}',
-            '$BTN_VIEW_DIFFS$': f'{repo_server_url}/{repo_name}/commit/{github_sha}'
+            'GITHUB_RUN':f'CI #{run_number}',
+            'IMAGE':f'https://cdn-icons-png.flaticon.com/512/2111/2111432.png',
+            'IMAGE_ALT':f'{commit.committer.login}', 
+            'MESSAGE_HEADER': f'File changes committed on [{repo_name}]({repo_server_url}/{repo_name})',
+            'MESSAGE_SUB_HEADER': f'by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.last_modified}',
+            'BRANCH': f'[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})',
+            'COMMIT_MESSAGE': f'{commit.commit.message}',
+            'FILES_CHANGED': f'{modifiedFiles}',
+            'BTN_VIEW_STATUS': f'{repo_server_url}/{repo_name}/actions/runs/{run_id}',
+            'BTN_VIEW_DIFFS': f'{repo_server_url}/{repo_name}/commit/{github_sha}'
         }
         final_json = replace_json_values(json_payload,payload_mapping)
     sendMessage = requests.post(notificationURL, json = final_json)
