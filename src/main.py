@@ -88,6 +88,7 @@ def send_teams_bot_message(notificationURL):
                     TextBlock(text=f"by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.last_modified}", size=types.FontSize.MEDIUM)
                 ],
                 width="stretch",
+                bleed=True
             ),
         ]
     )
