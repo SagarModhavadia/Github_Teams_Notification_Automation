@@ -137,27 +137,19 @@
                     ]
                 }
             ]
+        }
+    ],
+    actions:[
+        {
+            "type": "Action.OpenUrl",
+            "title": "View build/deploy status",
+            "url": "$BTN_VIEW_STATUS$"
         },
         {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "ActionSet",
-                    "actions": [
-                        {
-                            "type": "Action.OpenUrl",
-                            "title": "View build/deploy status",
-                            "url": "$BTN_VIEW_STATUS$"
-                        },
-                        {
-                            "type": "Action.OpenUrl",
-                            "title": "Review commit diffs",
-                            "url": "$BTN_VIEW_DIFFS$"
-                        }
-                    ]
-                }
-            ]
-        }
+            "type": "Action.OpenUrl",
+            "title": "Review commit diffs",
+            "url": "$BTN_VIEW_DIFFS$"
+        }           
     ],
     "msteams": {
         "width": "Full"
