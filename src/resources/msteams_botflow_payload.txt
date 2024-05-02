@@ -89,7 +89,7 @@
                             "columns": [
                                 {
                                     "type": "Column",
-                                    "width": "100px",
+                                    "width": "150px",
                                     "items": [
                                         {
                                             "type": "TextBlock",
@@ -152,7 +152,7 @@
         }           
     ],
     "msteams": {
-        "width": "full"
+        "width": "Full"
     },
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "version": "1.4",
