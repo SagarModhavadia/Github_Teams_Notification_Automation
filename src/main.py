@@ -76,7 +76,6 @@ def send_teams_bot_message(notificationURL):
     github.close()
     # start the bot message
     containers: list[ContainerTypes] = []
-    actions: list[ActionTypes] = []
     icon_source: str = f"{repo_server_url}/{repo_name}"
     icon_url: str = "https://cdn-icons-png.flaticon.com/512/2111/2111432.png"
 
@@ -85,7 +84,7 @@ def send_teams_bot_message(notificationURL):
             Column(items=[Image(url=icon_url, width="40px")], width="auto"),
             Column(
                 items=[
-                    TextBlock(text=f"CI {run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})", size=types.FontSize.LARGE),
+                    TextBlock(text=f"**CI {run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})**", size=types.FontSize.MEDIUM),
                     TextBlock(text=f"by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.last_modified}", size=types.FontSize.MEDIUM)
                 ],
                 width="stretch",
@@ -110,15 +109,6 @@ def send_teams_bot_message(notificationURL):
                             ]
                         )
                     ]
-                )
-            ]
-        )
-    )
-    containers.append(
-        Container(
-            items=[
-                Action(
-                    title="Test"
                 )
             ]
         )
