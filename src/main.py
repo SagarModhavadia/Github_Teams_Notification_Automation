@@ -114,12 +114,16 @@ def send_teams_bot_message(notificationURL):
             ]
         )
     )
-    actions.append(
-        Action(
-            title=f"Test"
+    containers.append(
+        Container(
+            items=[
+                Action(
+                    title="Test"
+                )
+            ]
         )
     )
-    card = AdaptiveCard.new().version("1.4").add_items(containers).add_action(actions).create()
+    card = AdaptiveCard.new().version("1.4").add_items(containers).create()
     sendMessage = requests.post(notificationURL, json = card.to_json())
 
 if teams_channel_webhook_url:
