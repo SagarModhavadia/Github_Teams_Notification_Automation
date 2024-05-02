@@ -5,7 +5,7 @@ import requests.exceptions
 from github import Github
 from github import Auth
 import adaptive_cards.card_types as types
-from adaptive_cards.actions import Action, ActionOpenUrl
+from adaptive_cards.actions import Action, ActionTypes
 from adaptive_cards.card import AdaptiveCard
 from adaptive_cards.elements import TextBlock, Image
 from adaptive_cards.containers import Container, ContainerTypes, ColumnSet, Column
@@ -76,6 +76,7 @@ def send_teams_bot_message(notificationURL):
     github.close()
     # start the bot message
     containers: list[ContainerTypes] = []
+    actions: list[ActionTypes] = []
     icon_source: str = f"{repo_server_url}/{repo_name}"
     icon_url: str = "https://cdn-icons-png.flaticon.com/512/2111/2111432.png"
 
@@ -113,13 +114,12 @@ def send_teams_bot_message(notificationURL):
             ]
         )
     )
-    containers.append(
+    actions.append(
         Action(
-            title=f"View build/deploy status"
+            title=f"Test"
         )
     )
-    card = AdaptiveCard.new().version("1.4").add_items(containers).create()
-
+    card = AdaptiveCard.new().version("1.4").add_items(containers).add_action(actions).create()
     sendMessage = requests.post(notificationURL, json = card.to_json())
 
 if teams_channel_webhook_url:
