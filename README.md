@@ -4,13 +4,14 @@ A GitHub Action that sends notifications to a dedicated Microsoft Teams channel 
 ## Usage
 1. Add `MS_TEAMS_WEBHOOK_URI` AND\OR `MS_TEAMS_BOT_FLOW_URI` on your repository's configs on Settings > Secrets. It is the [Webhook URI](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook) of the dedicated Microsoft Teams channel or Groupchat for notification.
 
-2) Add a belo `step` on workflow code:
+2) Add a below `step` on workflow code:
 
 ```yaml
 name: MS Teams Notification
 on:
   push:
-    branches: ['main']
+    branches: ['main'] #Specify Branch name here
+    paths: ['docs/**'] #Specify Folder name here which you want to monitor
 jobs:
   send-msteams-notification:
     runs-on: ubuntu-latest
@@ -21,14 +22,15 @@ jobs:
       - name: Notification
         if: always()
         id: send_notification
-        uses: ./
+        uses: SagarModhavadia/Github_Teams_Notification_Automation@main
         with:
           github_token: ${{ github.token }}
           #Use webhook url if you want to receive group notification 
           teams_channel_webhook_url: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-                        **OR**
+                                  **OR**
           #Use botflow url if you want to receive group notification 
           teams_channel_botflow_url: ${{ secrets.MS_TEAMS_BOT_FLOW_URI }}
+
 
 ```
 
