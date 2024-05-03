@@ -18,10 +18,9 @@ run_number = os.environ.get("RUN_NUMBER")
 github_branch = os.environ.get("GITHUB_BRANCH")
 
 def convert_utc_to_est(utc_datetime):
-    # Convert to EST timezone
     est_timezone = pytz.timezone('America/New_York')
     est_datetime = utc_datetime.astimezone(est_timezone)
-    return est_datetime
+    return est_datetime.strftime(f"%m/%d/%Y %H:%M:%S %Z%z")
 
 def send_teams_channel_message(notificationURL):
     auth = Auth.Token(f"{github_token}")
