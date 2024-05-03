@@ -43,6 +43,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    # - name: Install Python
+    #   uses: actions/setup-python@v5
+    #   with:
+    #     python-version: '3.11.1'
+    #     token: ${{ inputs.github_token }}
     - name: Sends a notification to ms teams
       id: send-msteams
       env:
@@ -57,7 +62,6 @@ runs:
         GITHUB_BRANCH: ${{ inputs.github_branch }}
       run: |
         cd ${{github.action_path}}
-        pip install --upgrade pip
         pip install -r requirements.txt --use-pep517
         python3 src/main.py
       shell: bash
