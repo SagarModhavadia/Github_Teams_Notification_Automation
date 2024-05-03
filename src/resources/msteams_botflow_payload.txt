@@ -82,59 +82,98 @@
             "type": "Container",
             "items": [
                 {
-                    "type": "Container",
-                    "items": [
+                    "type": "ColumnSet",
+                    "columns": [
                         {
-                            "type": "ColumnSet",
-                            "columns": [
+                            "type": "Column",
+                            "width": "150px",
+                            "items": [
                                 {
-                                    "type": "Column",
-                                    "width": "150px",
-                                    "items": [
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "Branch",
-                                            "weight": "Bolder",
-                                            "isSubtle": true
-                                        },
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "Commit message",
-                                            "weight": "Bolder",
-                                            "isSubtle": true
-                                        },
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "Files changed",
-                                            "weight": "Bolder",
-                                            "isSubtle": true
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "Column",
-                                    "items": [
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "$BRANCH$",
-                                            "wrap": true
-                                        },
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "$COMMIT_MESSAGE$",
-                                            "wrap": true
-                                        },
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "$FILES_CHANGED$",
-                                            "wrap": true
-                                        }
-                                    ],
-                                    "width": "stretch"
+                                    "type": "TextBlock",
+                                    "text": "Branch",
+                                    "weight": "Bolder",
+                                    "isSubtle": true
                                 }
                             ]
+                        },
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "$BRANCH$",
+                                    "wrap": true
+                                }
+                            ],
+                            "width": "stretch"
                         }
-                    ]
+                    ] 
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ColumnSet",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "width": "150px",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Commit message",
+                                    "weight": "Bolder",
+                                    "isSubtle": true
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "$COMMIT_MESSAGE$",
+                                    "wrap": true
+                                }
+                            ],
+                            "width": "stretch"
+                        }
+                    ] 
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ColumnSet",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "width": "150px",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Files changed",
+                                    "weight": "Bolder",
+                                    "isSubtle": true
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "$FILES_CHANGED$",
+                                    "wrap": true
+                                }
+                            ],
+                            "width": "stretch"
+                        }
+                    ] 
                 }
             ]
         }

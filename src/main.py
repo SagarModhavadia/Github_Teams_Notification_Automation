@@ -3,7 +3,6 @@ import os,requests, logging
 import requests.exceptions
 from github import Github, Auth
 import pytz
-from datetime import datetime
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s')
 
