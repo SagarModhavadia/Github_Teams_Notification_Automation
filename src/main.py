@@ -18,8 +18,6 @@ run_number = os.environ.get("RUN_NUMBER")
 github_branch = os.environ.get("GITHUB_BRANCH")
 
 def convert_utc_to_est(utc_datetime_str):
-    # Parse UTC datetime string
-    utc_datetime = datetime.strptime(utc_datetime_str, '%Y-%m-%d %H:%M:%S%z')
     # Set UTC timezone
     utc_timezone = pytz.timezone('UTC')
     utc_datetime = utc_timezone.localize(utc_datetime)
