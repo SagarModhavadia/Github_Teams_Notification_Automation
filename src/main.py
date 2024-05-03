@@ -2,8 +2,7 @@ import pymsteams
 import os,requests, logging
 import requests.exceptions
 from github import Github, Auth
-from datetime import datetime
-import time
+import pytz
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s')
 
@@ -60,9 +59,11 @@ def evaluate_response(resp_status_code):
         raise ValueError(f"Unexpected response: '{resp_status_code}'")
 
 def datetime_from_utc_to_local(utc_datetime):
-    now_timestamp = time.time()
-    offset = datetime.fromtimestamp(now_timestamp) - datetime.utcfromtimestamp(now_timestamp)
-    return str(utc_datetime + offset)
+    # Define time zones
+    est_zone = pytz.timezone('US/Eastern')  # Eastern Standard Time (EST)
+    # Convert UTC datetime to EST datetime
+    est_datetime = utc_datetime.astimezone(est_zone)
+    return est_datetime
 
 def replace_placeholder_values(source, values):
   # replaces all placeholders with values
