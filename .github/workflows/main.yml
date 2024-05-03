@@ -2,6 +2,7 @@ name: MS Teams Notification
 on:
   push:
     branches: ['main']
+    paths: ['**/**']
 jobs:
   send-msteams-notification:
     runs-on: ubuntu-latest
@@ -15,4 +16,7 @@ jobs:
         uses: ./
         with:
           github_token: ${{ github.token }}
+          #Use webhook url if you want to receive group notification 
+          teams_channel_webhook_url: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          #Use botflow url if you want to receive group notification 
           teams_channel_botflow_url: ${{ secrets.MS_TEAMS_BOT_FLOW_URI }}

@@ -32,7 +32,7 @@ def send_teams_channel_message(notificationURL):
     github.close()
     # start the message
     msTeams = pymsteams.connectorcard(notificationURL)
-    msTeams.summary(f"Changes committed by {commit.committer.name}")
+    msTeams.summary(f"Changes committed by {commit.author.name}")
     teams_message_section = pymsteams.cardsection()
     
     teams_message_section.activityTitle(f"CI #{run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})")
