@@ -1,7 +1,9 @@
 import pymsteams
-import os,requests, json, re, logging
+import os,requests, logging
 import requests.exceptions
 from github import Github, Auth
+from datetime import datetime
+import time
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s')
 
@@ -57,6 +59,11 @@ def evaluate_response(resp_status_code):
         logging.error("Unexpected response: %s", resp_status_code)
         raise ValueError(f"Unexpected response: '{resp_status_code}'")
 
+def datetime_from_utc_to_local(utc_datetime):
+    now_timestamp = time.time()
+    offset = datetime.fromtimestamp(now_timestamp) - datetime.utcfromtimestamp(now_timestamp)
+    return utc_datetime + offset
+
 def replace_placeholder_values(source, values):
   # replaces all placeholders with values
   for k, v in values.items():
@@ -81,7 +88,7 @@ def send_teams_bot_message(notificationURL):
             'IMAGE':f'https://cdn-icons-png.flaticon.com/512/2111/2111432.png',
             'IMAGE_ALT':f'{commit.committer.login}', 
             'MESSAGE_HEADER': f'File changes committed on [{repo_name}]({repo_server_url}/{repo_name})',
-            'MESSAGE_SUB_HEADER': f'by [{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.last_modified}',
+            'MESSAGE_SUB_HEADER': f'by [{commit.committer.login}](https://github.com/{commit.committer.login}) on {datetime_from_utc_to_local(commit.last_modified)}',
             'BRANCH': f'[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})',
             'COMMIT_MESSAGE': f'{commit.commit.message}',
             'FILES_CHANGED': f'{modifiedFiles}',
