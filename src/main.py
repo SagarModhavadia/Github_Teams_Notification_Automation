@@ -3,6 +3,7 @@ import os,requests, logging
 import requests.exceptions
 from github import Github, Auth
 import pytz
+from datetime import datetime
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s')
 
@@ -59,7 +60,7 @@ def evaluate_response(resp_status_code):
         raise ValueError(f"Unexpected response: '{resp_status_code}'")
 
 def datetime_from_utc_to_local(utc_datetime):
-    # Define time zones
+    datetime.strptime(utc_datetime, f'%Y-%m-%d %H:%M:%S')
     est_zone = pytz.timezone('US/Eastern')  # Eastern Standard Time (EST)
     # Convert UTC datetime to EST datetime
     est_datetime = utc_datetime.astimezone(est_zone)
