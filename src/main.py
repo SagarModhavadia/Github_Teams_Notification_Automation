@@ -94,5 +94,5 @@ def send_teams_bot_message(notificationURL):
 
 if teams_channel_webhook_url:
     send_teams_channel_message(f"{teams_channel_webhook_url}")
-else:
+if teams_channel_botflow_url:
     send_teams_bot_message(f"{teams_channel_botflow_url}")
