@@ -1,5 +1,5 @@
 # Microsoft Teams Notification 
-A GitHub Action that sends customizable notifications to a dedicated Microsoft Teams channel.
+A GitHub Action that sends notifications to a dedicated Microsoft Teams channel or group chat.
 
 ## Usage
 1. Add `MS_TEAMS_WEBHOOK_URI` AND\OR `MS_TEAMS_BOT_FLOW_URI` on your repository's configs on Settings > Secrets. It is the [Webhook URI](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook) of the dedicated Microsoft Teams channel or Groupchat for notification.
