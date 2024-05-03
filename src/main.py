@@ -29,7 +29,7 @@ def send_teams_channel_message(notificationURL):
     commit = repo.get_commit(sha=f"{github_sha}")
     modifiedFiles = ""
     for file in commit.files:
-        modifiedFiles += f"# [{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n"
+        modifiedFiles += f"# [{file.filename}]({repo_server_url}/{repo_name}/blob/{github_branch}/{file.filename})\n"
     github.close()
     # start the message
     msTeams = pymsteams.connectorcard(notificationURL)
@@ -78,7 +78,7 @@ def send_teams_bot_message(notificationURL):
     commit = repo.get_commit(sha=f"{github_sha}")
     modifiedFiles = ""
     for file in commit.files:
-        modifiedFiles += f"[{file.filename}]({repo_server_url}/{repo_name}/blob/main/{file.filename})\n\n "
+        modifiedFiles += f"[{file.filename}]({repo_server_url}/{repo_name}/blob/{github_branch}/{file.filename})\n\n "
     github.close()
     # start the bot message
     with open('src/resources/msteams_botflow_payload.txt') as payload_file:
