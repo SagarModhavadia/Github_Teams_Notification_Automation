@@ -20,7 +20,7 @@ github_branch = os.environ.get("GITHUB_BRANCH")
 def convert_utc_to_est(utc_datetime):
     est_timezone = pytz.timezone('America/New_York')
     est_datetime = utc_datetime.astimezone(est_timezone)
-    return est_datetime.strftime(f"%m/%d/%Y %H:%M:%S %Z%z")
+    return est_datetime.strftime(f"%m/%d/%Y %H:%M:%S %Z")
 
 def send_teams_channel_message(notificationURL):
     auth = Auth.Token(f"{github_token}")
