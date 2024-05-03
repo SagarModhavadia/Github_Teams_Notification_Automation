@@ -36,8 +36,8 @@ def send_teams_channel_message(notificationURL):
     teams_message_section = pymsteams.cardsection()
     
     teams_message_section.activityTitle(f"CI #{run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})")
-    teams_message_section.activityImage(f"https://github.com/{commit.committer.login}.png")
-    teams_message_section.activityText(f"by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {convert_utc_to_est(commit.commit.committer.date)}")
+    teams_message_section.activityImage(f"https://github.com/{commit.author.login}.png")
+    teams_message_section.activityText(f"by [@{commit.author.login}](https://github.com/{commit.author.login}) on {convert_utc_to_est(commit.commit.author.date)}")
     # section 1
     teams_message_section.addFact("Branch:", f"[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})")
     teams_message_section.addFact("Commit message:", f"{commit.commit.message}")
@@ -84,10 +84,10 @@ def send_teams_bot_message(notificationURL):
         payload = payload_file.read()
         payload_mapping = {
             'GITHUB_RUN':f'CI #{run_number}',
-            'IMAGE':f'https://github.com/{commit.committer.login}.png',
-            'IMAGE_ALT':f'{commit.committer.login}', 
+            'IMAGE':f'https://github.com/{commit.author.login}.png',
+            'IMAGE_ALT':f'{commit.author.login}', 
             'MESSAGE_HEADER': f'File changes committed on [{repo_name}]({repo_server_url}/{repo_name})',
-            'MESSAGE_SUB_HEADER': f'by [{commit.committer.login}](https://github.com/{commit.committer.login}) on {convert_utc_to_est(commit.commit.committer.date)}',
+            'MESSAGE_SUB_HEADER': f'by [{commit.author.login}](https://github.com/{commit.author.login}) on {convert_utc_to_est(commit.commit.author.date)}',
             'BRANCH': f'[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})',
             'COMMIT_MESSAGE': f'{commit.commit.message}',
             'FILES_CHANGED': f'{modifiedFiles}',
