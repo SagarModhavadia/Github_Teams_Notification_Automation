@@ -3,6 +3,7 @@ import os,requests, logging
 import requests.exceptions
 from github import Github, Auth
 import pytz
+from datetime import datetime
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s')
 
@@ -15,6 +16,17 @@ github_token = os.environ.get("GITHUB_TOKEN")
 run_id = os.environ.get("RUN_ID")
 run_number = os.environ.get("RUN_NUMBER")
 github_branch = os.environ.get("GITHUB_BRANCH")
+
+def convert_utc_to_est(utc_datetime_str):
+    # Parse UTC datetime string
+    utc_datetime = datetime.strptime(utc_datetime_str, '%Y-%m-%d %H:%M:%S%z')
+    # Set UTC timezone
+    utc_timezone = pytz.timezone('UTC')
+    utc_datetime = utc_timezone.localize(utc_datetime)
+    # Convert to EST timezone
+    est_timezone = pytz.timezone('America/New_York')
+    est_datetime = utc_datetime.astimezone(est_timezone)
+    return est_datetime
 
 def send_teams_channel_message(notificationURL):
     auth = Auth.Token(f"{github_token}")
@@ -32,7 +44,7 @@ def send_teams_channel_message(notificationURL):
     
     teams_message_section.activityTitle(f"CI #{run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})")
     teams_message_section.activityImage("https://cdn-icons-png.flaticon.com/512/2111/2111432.png")
-    teams_message_section.activityText(f"by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.commit.committer.date}")
+    teams_message_section.activityText(f"by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {convert_utc_to_est(commit.commit.committer.date)}")
     # section 1
     teams_message_section.addFact("Branch:", f"[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})")
     teams_message_section.addFact("Commit message:", f"{commit.commit.message}")
@@ -82,7 +94,7 @@ def send_teams_bot_message(notificationURL):
             'IMAGE':f'https://cdn-icons-png.flaticon.com/512/2111/2111432.png',
             'IMAGE_ALT':f'{commit.committer.login}', 
             'MESSAGE_HEADER': f'File changes committed on [{repo_name}]({repo_server_url}/{repo_name})',
-            'MESSAGE_SUB_HEADER': f'by [{commit.committer.login}](https://github.com/{commit.committer.login}) on {commit.commit.committer.date}',
+            'MESSAGE_SUB_HEADER': f'by [{commit.committer.login}](https://github.com/{commit.committer.login}) on {convert_utc_to_est(commit.commit.committer.date)}',
             'BRANCH': f'[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})',
             'COMMIT_MESSAGE': f'{commit.commit.message}',
             'FILES_CHANGED': f'{modifiedFiles}',
@@ -90,7 +102,6 @@ def send_teams_bot_message(notificationURL):
             'BTN_VIEW_DIFFS': f'{repo_server_url}/{repo_name}/commit/{github_sha}'
         }
         final_payload = replace_placeholder_values(payload,payload_mapping)
-        print(f'{final_payload}')
         sendMessage = requests.post(notificationURL, final_payload)
 
 if teams_channel_webhook_url:
