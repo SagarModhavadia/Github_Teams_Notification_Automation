@@ -37,7 +37,7 @@ def send_teams_channel_message(notificationURL):
     teams_message_section = pymsteams.cardsection()
     
     teams_message_section.activityTitle(f"CI #{run_number} | File changes committed on [{repo_name}]({repo_server_url}/{repo_name})")
-    teams_message_section.activityImage("https://cdn-icons-png.flaticon.com/512/2111/2111432.png")
+    teams_message_section.activityImage(f"https://github.com/{commit.committer.login}.png")
     teams_message_section.activityText(f"by [@{commit.committer.login}](https://github.com/{commit.committer.login}) on {convert_utc_to_est(commit.commit.committer.date)}")
     # section 1
     teams_message_section.addFact("Branch:", f"[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})")
@@ -85,7 +85,7 @@ def send_teams_bot_message(notificationURL):
         payload = payload_file.read()
         payload_mapping = {
             'GITHUB_RUN':f'CI #{run_number}',
-            'IMAGE':f'https://cdn-icons-png.flaticon.com/512/2111/2111432.png',
+            'IMAGE':f'https://github.com/{commit.committer.login}.png',
             'IMAGE_ALT':f'{commit.committer.login}', 
             'MESSAGE_HEADER': f'File changes committed on [{repo_name}]({repo_server_url}/{repo_name})',
             'MESSAGE_SUB_HEADER': f'by [{commit.committer.login}](https://github.com/{commit.committer.login}) on {convert_utc_to_est(commit.commit.committer.date)}',
