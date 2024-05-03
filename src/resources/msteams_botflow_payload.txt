@@ -63,7 +63,7 @@
                            "type": "TextBlock",
                             "size": "large",
                             "text": "$MESSAGE_HEADER$",
-                            "wrap": true,
+                            "wrap": false,
                             "style": "heading"
                         },
                         {
