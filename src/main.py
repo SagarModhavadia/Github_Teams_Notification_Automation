@@ -86,7 +86,7 @@ def send_teams_bot_message(notificationURL):
             'IMAGE':f'https://cdn-icons-png.flaticon.com/512/2111/2111432.png',
             'IMAGE_ALT':f'{commit.committer.login}', 
             'MESSAGE_HEADER': f'File changes committed on [{repo_name}]({repo_server_url}/{repo_name})',
-            'MESSAGE_SUB_HEADER': f'by [{commit.committer.login}](https://github.com/{commit.committer.login}) on {datetime_from_utc_to_local(commit.last_modified)}',
+            'MESSAGE_SUB_HEADER': f'by [{commit.committer.login}](https://github.com/{commit.committer.login}) on {datetime_from_utc_to_local(commit.commit.committer.date)}',
             'BRANCH': f'[{github_branch.upper()}]({repo_server_url}/{repo_name}/tree/{github_branch})',
             'COMMIT_MESSAGE': f'{commit.commit.message}',
             'FILES_CHANGED': f'{modifiedFiles}',
