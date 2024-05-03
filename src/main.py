@@ -62,7 +62,7 @@ def evaluate_response(resp_status_code):
 def datetime_from_utc_to_local(utc_datetime):
     now_timestamp = time.time()
     offset = datetime.fromtimestamp(now_timestamp) - datetime.utcfromtimestamp(now_timestamp)
-    return utc_datetime + offset
+    return str(utc_datetime + offset)
 
 def replace_placeholder_values(source, values):
   # replaces all placeholders with values
