@@ -25,10 +25,10 @@ jobs:
         uses: SagarModhavadia/Github_Teams_Notification_Automation@main
         with:
           github_token: ${{ github.token }}
-          #Use webhook url if you want to receive group notification 
+          #Use webhook url if you want to receive teams channel notification 
           teams_channel_webhook_url: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
                                   **OR**
-          #Use botflow url if you want to receive group notification 
+          #Use botflow url if you want to receive group chat notification 
           teams_channel_botflow_url: ${{ secrets.MS_TEAMS_BOT_FLOW_URI }}
 
 
